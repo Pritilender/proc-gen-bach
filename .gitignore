@@ -1,1 +1,6 @@
-[Bb]uild/
+bin/*
+build/*
+lib/*
+
+# Vagrant Folder
+.vagrant/*
