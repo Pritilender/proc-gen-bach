@@ -91,9 +91,11 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Visual Studio specific settings
 # Requires CMake 3.8+
 if(MSVC)
+    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
+
     # Hide the console in Visual Studio projects in debug and release
     set_target_properties(${PROJECT_NAME} PROPERTIES
-		LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup" 
+		LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
 		LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
 
     # Copy resources folder to output folder
