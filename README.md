@@ -21,8 +21,8 @@ This is a template for OpenGL projects, forked from [Glitter](https://github.com
 ## Instructions
 
 ```bash
-git clone --recursive https://github.com/matthewjberger/opengl_template
-cd opengl_template
+git clone --recursive https://github.com/matthewjberger/glamour
+cd glamour
 mkdir build
 cd build
 
