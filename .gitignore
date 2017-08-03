@@ -1,6 +1,10 @@
+# Output directories
 bin/*
 build/*
 lib/*
+
+# Clang complete file
+.clang_complete
 
 # Vagrant Folder
 .vagrant/*
