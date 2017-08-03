@@ -46,7 +46,7 @@ else()
     endif()
 endif()
 
-include_directories(src/Headers/
+include_directories(src/
                     vendor/assimp/include/
 					vendor/boxer/include/
                     vendor/bullet/src/
