@@ -28,6 +28,9 @@ option(BUILD_OPENGL3_DEMOS OFF)
 option(BUILD_UNIT_TESTS OFF)
 add_subdirectory(vendor/bullet)
 
+# Freetype2 build options
+add_subdirectory(vendor/freetype2)
+
 if(MSVC)
     # Set warning level 4 when using Visual Studio
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
@@ -43,6 +46,7 @@ endif()
 include_directories(src/Headers/
                     vendor/assimp/include/
                     vendor/bullet/src/
+					vendor/freetype2/include/
                     vendor/glad/include/
                     vendor/glfw/include/
                     vendor/glm/
@@ -77,6 +81,7 @@ add_executable(${PROJECT_NAME}  ${PROJECT_SOURCES}
 # Link dependencies
 target_link_libraries(${PROJECT_NAME}   assimp
                                         glfw
+										freetype
                                         ${GLFW_LIBRARIES}
                                         ${GLAD_LIBRARIES}
                                         BulletDynamics

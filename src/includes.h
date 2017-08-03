@@ -15,6 +15,10 @@
 //     #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
+// Freetype 2
+#include <ft2build.h>
+#include FT_FREETYPE_H
+
 // Standard Headers
 #include <cstdio>
 #include <cstdlib>

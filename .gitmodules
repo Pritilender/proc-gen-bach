@@ -18,3 +18,6 @@
 	path = vendor/bullet
     url = https://github.com/bulletphysics/bullet3.git
     branch = master
+[submodule "vendor/freetype2"]
+	path = vendor/freetype2
+	url = http://git.sv.nongnu.org/r/freetype/freetype2.git
