@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(opengl_template)
+project(glamour)
 
 # Place targets into their own solution folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

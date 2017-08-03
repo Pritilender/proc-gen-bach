@@ -1,4 +1,4 @@
-# OpenGL Template
+# Glamour
 
 This is a template for OpenGL projects, forked from [Glitter](https://github.com/polytonic/Glitter) with improvements.
 
