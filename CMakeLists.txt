@@ -69,7 +69,7 @@ file(GLOB PROJECT_CONFIGS CMakeLists.txt
 # Use file globs to create filters for Visual Studio
 source_group("Headers" FILES ${PROJECT_HEADERS})
 source_group("Sources" FILES ${PROJECT_SOURCES})
-SOURCE_GROUP("Configs" FILES ${PROJECT_CONFIGS})
+source_group("Configs" FILES ${PROJECT_CONFIGS})
 source_group("Glad"	   FILES ${GLAD_SOURCE})
 
 # GLFW_INCLUDE_NONE tells GLFW not to include OpenGL headers.
