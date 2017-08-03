@@ -6,5 +6,8 @@ lib/*
 # Clang complete file
 .clang_complete
 
+# VSCode folder
+.vscode/
+
 # Vagrant Folder
 .vagrant/*
