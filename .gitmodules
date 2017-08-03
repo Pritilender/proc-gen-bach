@@ -21,3 +21,6 @@
 [submodule "vendor/freetype2"]
 	path = vendor/freetype2
 	url = http://git.sv.nongnu.org/r/freetype/freetype2.git
+[submodule "vendor/boxer"]
+	path = vendor/boxer
+	url = https://github.com/aaronmjacobs/Boxer

@@ -31,6 +31,9 @@ add_subdirectory(vendor/bullet)
 # Freetype2 build options
 add_subdirectory(vendor/freetype2)
 
+# Boxer build options
+add_subdirectory(vendor/boxer)
+
 if(MSVC)
     # Set warning level 4 when using Visual Studio
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
@@ -45,6 +48,7 @@ endif()
 
 include_directories(src/Headers/
                     vendor/assimp/include/
+					vendor/boxer/include/
                     vendor/bullet/src/
 					vendor/freetype2/include/
                     vendor/glad/include/
@@ -80,6 +84,7 @@ add_executable(${PROJECT_NAME}  ${PROJECT_SOURCES}
                                 ${GLAD_SOURCE})
 # Link dependencies
 target_link_libraries(${PROJECT_NAME}   assimp
+										Boxer
                                         glfw
 										freetype
                                         ${GLFW_LIBRARIES}
