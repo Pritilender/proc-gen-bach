@@ -4,7 +4,7 @@ This is a template for OpenGL projects, forked from [Glitter](https://github.com
 
 ## Improvements
 
-* Added [Freetype2](https://www.freetype.org/).
+* Added [Freetype2](https://www.freetype.org/) for truetype font processing.
 * Added [Boxer](https://github.com/aaronmjacobs/Boxer) for cross-platform messageboxes.
 * Generated an OpenGL 4.6 function loader using the [glad](http://glad.dav1d.de/) web service instead of the outdated c-branch on the original repo.
 * All submodules have been pointed toward their latest stable release.
