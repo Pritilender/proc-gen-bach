@@ -4,6 +4,9 @@ project(glamour)
 # Place targets into their own solution folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Create the compilation database
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 # Ensure C++14
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 14)

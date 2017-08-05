@@ -15,8 +15,8 @@ This is a template for OpenGL projects, forked from [Glitter](https://github.com
 * `C++14` is set with [`CMAKE_CXX_STANDARD`](https://cmake.org/cmake/help/v3.1/variable/CMAKE_CXX_STANDARD.html) in the `CMakeLists.txt` file. This can be changed to whichever standard your project requires.
 * Added a default [`.editorconfig`](http://editorconfig.org/) file.
 * [`USE_FOLDERS`](https://cmake.org/cmake/help/v3.0/prop_gbl/USE_FOLDERS.html) is now on by default in the `CMakeLists.txt` so that CMake targets will be placed in their own folder.
-
-
+* A compilation database is automatically created when you build. This can be used for code
+  completion by editor plugins.
 
 ## Instructions
 
