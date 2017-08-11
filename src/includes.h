@@ -6,8 +6,14 @@
 #include <assimp/scene.h>
 #include <btBulletDynamicsCommon.h>
 #include <glad/glad.h>
+
+// GLM
+#define GLM_FORCE_RADIANS
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+
+// More System Headers
 #include <GLFW/glfw3.h>
 #include <boxer/boxer.h>
 
