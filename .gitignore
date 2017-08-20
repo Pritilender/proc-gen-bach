@@ -1,1 +1,5 @@
 [Bb]uild/
+.idea/Glitter.iml
+.idea/modules.xml
+.idea/workspace.xml
+cmake-build-debug/
