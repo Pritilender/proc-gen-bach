@@ -8,13 +8,13 @@ ShaderProgram &ShaderProgram::attachShader(std::string const &filename) {
     std::string src((std::istreambuf_iterator<char>(fileStream)), std::istreambuf_iterator<char>());
 
     const char *source = src.c_str();
-    GLint status = 1;
+    GLint status = 0;
     GLuint shader = create(filename);
     glShaderSource(shader, 1, &source, nullptr);
     glCompileShader(shader);
     glGetShaderiv(shader, GL_COMPILE_STATUS, &status);
 
-    if (status == false) {
+    if (status == GL_FALSE) {
         char infoLog[512];
         glGetShaderInfoLog(shader, 512, nullptr, infoLog);
         std::cerr << "Error attaching shader: compilation failed for file "
@@ -55,11 +55,11 @@ ShaderProgram &ShaderProgram::setUniform(const std::string &name, const glm::mat
 }
 
 bool ShaderProgram::link() {
-    GLint status = 1;
+    GLint status = 0;
     glLinkProgram(program);
     glGetProgramiv(program, GL_LINK_STATUS, &status);
 
-    if (status == false) {
+    if (status == GL_FALSE) {
         char infoLog[512];
         glGetProgramInfoLog(program, 512, nullptr, infoLog);
         std::cerr << "Error linking the program.\n"

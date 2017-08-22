@@ -1,8 +1,7 @@
 #version 440
-
+in vec3 position;
 out vec4 FragColor;
 
-void main()
-{
-    FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);
+void main() {
+    FragColor = vec4(position, 1.0);
 }

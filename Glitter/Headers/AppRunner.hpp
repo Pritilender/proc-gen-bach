@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 #include <string>
 #include "ShaderProgram.hpp"
+#include "Triangle.hpp"
 
 #ifndef GLITTER_APPRUNNER_HPP
 #define GLITTER_APPRUNNER_HPP
@@ -76,7 +77,7 @@ private:
 
     bool isWireframe = false; //!< Is current drawn object shown as wireframe
 
-    ShaderProgram *shaderProgram;
+    Triangle *pTriangle;
 };
 
 
