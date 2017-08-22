@@ -1,18 +1,21 @@
 #include "AppRunner.hpp"
 #include <iostream>
+#include <typeinfo>
+
+using namespace std;
 
 int main(int argc, char *argv[]) {
-    AppRunner *app;
 
     try {
-        app = new AppRunner("OpenGL test", 800, 1280);
+        auto app = new AppRunner("OpenGL test", 600, 800);
+        app->run();
     } catch (std::runtime_error &error) {
-        std::cerr << error.what() << std::endl;
+        cerr << error.what() << endl;
+        return EXIT_FAILURE;
+    } catch (...) {
+        cerr << "Unknown error" << endl;
         return EXIT_FAILURE;
     }
-
-    app->run();
-    delete app;
 
     return EXIT_SUCCESS;
 }

@@ -1,9 +1,10 @@
-#ifndef GLITTER_APPRUNNER_HPP
-#define GLITTER_APPRUNNER_HPP
-
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <string>
+#include "ShaderProgram.hpp"
+
+#ifndef GLITTER_APPRUNNER_HPP
+#define GLITTER_APPRUNNER_HPP
 
 /**
  * Application and window wrapper for GLFW
@@ -74,6 +75,8 @@ private:
     GLFWwindow *pWindow; //!< Pointer to GLFW window
 
     bool isWireframe = false; //!< Is current drawn object shown as wireframe
+
+    ShaderProgram *shaderProgram;
 };
 
 
