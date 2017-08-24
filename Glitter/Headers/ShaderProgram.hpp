@@ -1,10 +1,11 @@
+#ifndef GLITTER_SHADERPROGRAM_HPP
+#define GLITTER_SHADERPROGRAM_HPP
+
 #include <string>
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "glitter.hpp"
-
-#ifndef GLITTER_SHADERPROGRAM_HPP
-#define GLITTER_SHADERPROGRAM_HPP
+#include <Shader.hpp>
 
 /**
  * OpenGL shader program wrapper
@@ -19,6 +20,11 @@ public:
         glDeleteProgram(program);
     }
 
+    ShaderProgram(const ShaderProgram&) = delete;
+    ShaderProgram(const ShaderProgram&&) = delete;
+    ShaderProgram& operator=(const ShaderProgram&) = delete;
+    ShaderProgram& operator=(const ShaderProgram&&) = delete;
+
     GLuint get() {
         return program;
     }
@@ -27,15 +33,15 @@ public:
         glUseProgram(program);
     }
 
-    ShaderProgram &attachShader(std::string const &filename);
-    ShaderProgram &setUniform(const std::string &name, bool value);
-    ShaderProgram &setUniform(const std::string &name, int value);
-    ShaderProgram &setUniform(const std::string &name, float value);
-    ShaderProgram &setUniform(const std::string &name, const glm::mat4 &transformMatrix);
-    bool link();
+    ShaderProgram* attachShader(const Shader& shader);
+    ShaderProgram* detachShader(const Shader& shader);
+    ShaderProgram* setUniform(const std::string &name, bool value);
+    ShaderProgram* setUniform(const std::string &name, int value);
+    ShaderProgram* setUniform(const std::string &name, float value);
+    ShaderProgram* setUniform(const std::string &name, const glm::mat4 &transformMatrix);
+    ShaderProgram* link();
 
 private:
-    GLuint create(std::string const &filename);
     inline GLint getUniformLocation(std::string const &name) {
         return glGetUniformLocation(program, name.c_str());
     }
