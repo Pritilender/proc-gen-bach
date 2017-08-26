@@ -8,7 +8,8 @@ AppRunner::AppRunner(const std::string &title, int height, int width) : title(ti
 }
 
 AppRunner::~AppRunner() {
-    delete pTriangle;
+//    delete pTriangle;
+    delete pSquare;
     glfwTerminate();
 }
 
@@ -53,12 +54,14 @@ void AppRunner::run() {
 
 void AppRunner::setup() {
     glClearColor(0.1f, 0.5f, 0.9f, 1.0f);
-    pTriangle = new Triangle();
+//    pTriangle = new Triangle();
+    pSquare = new Square();
 }
 
 void AppRunner::draw() {
     glClear(GL_COLOR_BUFFER_BIT);
-    pTriangle->render();
+//    pTriangle->render();
+    pSquare->render();
 }
 
 void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int action, int mods) {

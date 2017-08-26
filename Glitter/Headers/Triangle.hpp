@@ -1,8 +1,8 @@
-#include "glitter.hpp"
-#include "ShaderProgram.hpp"
-
 #ifndef GLITTER_TRIANGLE_HPP
 #define GLITTER_TRIANGLE_HPP
+
+#include "glitter.hpp"
+#include "ShaderProgram.hpp"
 
 class Triangle {
 public:

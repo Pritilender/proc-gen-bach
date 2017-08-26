@@ -14,7 +14,7 @@ Triangle::Triangle() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
 
-    Shader vertex("vertexShader.vert"), fragment("fragmentShader.frag");
+    Shader vertex("vertexShaderTriangle.vert"), fragment("fragmentShaderTriangle.frag");
     this->shaderProgram = new ShaderProgram();
     this->shaderProgram->
         attachShader(vertex)->

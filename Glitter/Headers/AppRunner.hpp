@@ -3,6 +3,7 @@
 #include <string>
 #include "ShaderProgram.hpp"
 #include "Triangle.hpp"
+#include "Square.hpp"
 
 #ifndef GLITTER_APPRUNNER_HPP
 #define GLITTER_APPRUNNER_HPP
@@ -77,7 +78,8 @@ private:
 
     bool isWireframe = false; //!< Is current drawn object shown as wireframe
 
-    Triangle *pTriangle;
+//    Triangle *pTriangle;
+    Square *pSquare;
 };
 
 
