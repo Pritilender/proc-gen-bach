@@ -14,13 +14,6 @@ Triangle::Triangle() {
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void *) 0);
     glEnableVertexAttribArray(0);
 
-    Shader vertex("vertexShaderTriangle.vert"), fragment("fragmentShaderTriangle.frag");
-    this->shaderProgram = new ShaderProgram();
-    this->shaderProgram->
-        attachShader(vertex)->
-        attachShader(fragment)->
-        link();
-
     // unbind buffers
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
@@ -31,11 +24,9 @@ Triangle::~Triangle() {
     glDeleteBuffers(1, &VBO);
     // delete vertex array
     glDeleteVertexArrays(1, &VAO);
-    delete shaderProgram;
 }
 
-void Triangle::render() {
-    shaderProgram->use();
+void Triangle::draw() {
     glBindVertexArray(VAO);
     glDrawArrays(GL_TRIANGLES, 0, 3);
     glBindVertexArray(0);

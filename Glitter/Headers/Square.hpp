@@ -5,12 +5,13 @@
 #include <GLFW/glfw3.h>
 #include "ShaderProgram.hpp"
 #include "Texture.hpp"
+#include "Drawable.hpp"
 
-class Square {
+class Square: public Drawable {
 public:
     Square();
     ~Square();
-    void render();
+    void draw() override;
 
 private:
     float vertices[32] = {
@@ -27,9 +28,6 @@ private:
     GLuint VBO;
     GLuint VAO;
     GLuint EBO;
-    ShaderProgram *shaderProgram;
-    Texture *texture1;
-    Texture *texture2;
 };
 
 

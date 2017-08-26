@@ -3,12 +3,13 @@
 
 #include "glitter.hpp"
 #include "ShaderProgram.hpp"
+#include "Drawable.hpp"
 
-class Triangle {
+class Triangle : public Drawable {
 public:
     Triangle();
     ~Triangle();
-    void render();
+    void draw() override;
 
 private:
     float vertices[9] = {
@@ -18,7 +19,6 @@ private:
     };
     GLuint VBO;
     GLuint VAO;
-    ShaderProgram *shaderProgram;
 };
 
 

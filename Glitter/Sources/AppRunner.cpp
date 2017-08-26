@@ -1,6 +1,7 @@
 #include "AppRunner.hpp"
 #include "glitter.hpp"
 #include <iostream>
+#include <Scene.hpp>
 
 AppRunner::AppRunner(const std::string &title, int height, int width) : title(title), height(height), width(width) {
     glfwInit();
@@ -8,8 +9,6 @@ AppRunner::AppRunner(const std::string &title, int height, int width) : title(ti
 }
 
 AppRunner::~AppRunner() {
-//    delete pTriangle;
-    delete pSquare;
     glfwTerminate();
 }
 
@@ -43,25 +42,13 @@ void AppRunner::createWindow() {
 }
 
 void AppRunner::run() {
-    setup();
+    Scene s;
     while (glfwWindowShouldClose(pWindow) == false) {
-        draw();
+        s.render();
 
         glfwSwapBuffers(pWindow);
         glfwPollEvents();
     }
-}
-
-void AppRunner::setup() {
-    glClearColor(0.1f, 0.5f, 0.9f, 1.0f);
-//    pTriangle = new Triangle();
-    pSquare = new Square();
-}
-
-void AppRunner::draw() {
-    glClear(GL_COLOR_BUFFER_BIT);
-//    pTriangle->render();
-    pSquare->render();
 }
 
 void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int action, int mods) {

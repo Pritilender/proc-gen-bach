@@ -62,24 +62,12 @@ public:
     static void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 
 private:
-    /**
-     * Scene setup
-     */
-    void setup();
-    /**
-    * Scene drawing logic
-    */
-    void draw();
-
     std::string title; //!< Window title
     int height; //!< Window height
     int width; //!< Window width
     GLFWwindow *pWindow; //!< Pointer to GLFW window
 
     bool isWireframe = false; //!< Is current drawn object shown as wireframe
-
-//    Triangle *pTriangle;
-    Square *pSquare;
 };
 
 

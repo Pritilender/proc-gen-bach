@@ -22,36 +22,15 @@ Square::Square() {
     // texture coord attribute
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *) (6 * sizeof(float)));
     glEnableVertexAttribArray(2);
-
-    Shader vertex("vertexShaderSquare.vert"), fragment("fragmentShaderSquare.frag");
-    shaderProgram = new ShaderProgram();
-    shaderProgram->
-        attachShader(vertex)->
-        attachShader(fragment)->
-        link();
-
-    texture2 = new Texture("awesomeface.png");
-    texture1 = new Texture("container.jpg");
-    // prepare uniforms, should be somewhere else
-    shaderProgram->use();
-    shaderProgram->setUniform("texture1", 0);
-    shaderProgram->setUniform("texture2", 1);
 }
 
 Square::~Square() {
-    delete texture1;
-    delete texture2;
-    delete shaderProgram;
-
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
     glDeleteBuffers(1, &VAO);
 }
 
-void Square::render() {
-//    texture1->bindToActive(GL_TEXTURE0);
-    texture2->bindToActive(GL_TEXTURE1);
-    shaderProgram->use();
+void Square::draw() {
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
