@@ -7,7 +7,7 @@ using namespace std;
 
 Scene::Scene(int w, int h) : width(w), height(h) {
     glEnable(GL_DEPTH_TEST);
-    glClearColor(0.1f, 0.5f, 0.9f, 1.0f);
+    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
     setupProgram();
     setupTextures();
@@ -93,5 +93,5 @@ void Scene::restart() {
     angY = 0;
     angX = 0;
     angZ = 0;
-    cameraPos = glm::vec3(0.0f, 0.0f, -3.0f);
+    cameraPos = glm::vec3(0.0f, -0.5f, -2.0f);
 }

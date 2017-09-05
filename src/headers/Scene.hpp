@@ -30,7 +30,7 @@ private:
     float angY = 0;
     float angX = 0;
     float angZ = 0;
-    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f,  -3.0f);
+    glm::vec3 cameraPos = glm::vec3(0.0f, -0.5f,  -2.0f);
 
     std::vector<std::unique_ptr<Drawable>> drawables;
     std::vector<std::unique_ptr<Texture>> textures;
