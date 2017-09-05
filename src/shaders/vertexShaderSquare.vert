@@ -1,6 +1,7 @@
 #version 440
 
-in vec4 position;
+layout (location = 0) in vec3 position;
+layout (location = 1) in vec3 color;
 
 out VS_OUT {
     vec4 color;
@@ -11,6 +12,6 @@ uniform mat4 projection;
 
 void main()
 {
-	gl_Position = projection * modelView * position;
-	vs_out.color = position * 2.0 + vec4(0.5, 0.5, 0.5, 0.0);
+	gl_Position = projection * modelView * vec4(position, 1.0);
+	vs_out.color = vec4(color, 1.0);
 }
