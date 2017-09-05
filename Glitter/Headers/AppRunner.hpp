@@ -4,6 +4,7 @@
 #include "ShaderProgram.hpp"
 #include "Triangle.hpp"
 #include "Square.hpp"
+#include "Scene.hpp"
 
 #ifndef GLITTER_APPRUNNER_HPP
 #define GLITTER_APPRUNNER_HPP
@@ -68,6 +69,7 @@ private:
     GLFWwindow *pWindow; //!< Pointer to GLFW window
 
     bool isWireframe = false; //!< Is current drawn object shown as wireframe
+    std::unique_ptr<Scene> s;
 };
 
 

@@ -2,24 +2,49 @@
 #define GLITTER_SHADER_HPP
 
 #include <string>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include <iostream>
+#include <fstream>
+#include "glitter.hpp"
+
 
 class Shader {
 public:
-    explicit Shader(const std::string& filename);
-    ~Shader() {
-        glDeleteShader(shader);
+    Shader(const std::string& filename, const GLenum type) {
+        GLint status = 0;
+        std::string path = shaderFolder + filename;
+        std::ifstream fileStream(path);
+        std::string src((std::istreambuf_iterator<char>(fileStream)), std::istreambuf_iterator<char>());
+        const char *source = src.c_str();
+        const GLenum shaderType = type;
+
+        id = glCreateShader(shaderType);
+        glShaderSource(id, 1, &source, nullptr);
+        glCompileShader(id);
+
+        glGetShaderiv(id, GL_COMPILE_STATUS, &status);
+        if (status == GL_FALSE) {
+            char infoLog[512];
+            glGetShaderInfoLog(id, 512, nullptr, infoLog);
+            std::cerr << "Error attaching shader: compilation failed for file "
+                      << filename
+                      << "\n"
+                      << infoLog
+                      << std::endl;
+        }
+    };
+
+    virtual ~Shader() {
+        glDeleteShader(id);
     }
 
-    inline const GLuint get() const {
-        return shader;
-    }
+    Shader(Shader&) = delete;
+    Shader(Shader&&) = delete;
+    Shader& operator=(Shader&) = delete;
+    Shader& operator=(Shader&&) = delete;
 
-    static const std::string shaderFolder; //!< Shader folder default location
-
-private:
-    GLuint shader;
+    GLuint id;
+protected:
+    const std::string shaderFolder = PROJECT_SOURCE_DIR "/Glitter/Shaders/";
 };
 
 

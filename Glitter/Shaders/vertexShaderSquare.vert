@@ -1,14 +1,16 @@
 #version 440
-layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aColor;
-layout (location = 2) in vec2 aTexCoord;
 
-out vec3 ourColor;
-out vec2 TexCoord;
+in vec4 position;
+
+out VS_OUT {
+    vec4 color;
+} vs_out;
+
+uniform mat4 modelView;
+uniform mat4 projection;
 
 void main()
 {
-	gl_Position = vec4(aPos, 1.0);
-	ourColor = aColor;
-	TexCoord = vec2(aTexCoord.x, aTexCoord.y);
+	gl_Position = projection * modelView * position;
+	vs_out.color = position * 2.0 + vec4(0.5, 0.5, 0.5, 0.0);
 }

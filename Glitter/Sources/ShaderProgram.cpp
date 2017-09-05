@@ -3,12 +3,12 @@
 #include <fstream>
 
 ShaderProgram* ShaderProgram::attachShader(const Shader& shader) {
-    glAttachShader(program, shader.get());
+    glAttachShader(program, shader.id);
     return this;
 }
 
 ShaderProgram* ShaderProgram::detachShader(const Shader& shader) {
-    glDetachShader(program, shader.get());
+    glDetachShader(program, shader.id);
     return this;
 }
 
