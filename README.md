@@ -3,6 +3,8 @@
 This is a template for OpenGL projects, forked from [glamour](https://github.com/matthewjberger/glamour) which itself is a fork of [Glitter](https://github.com/polytonic/Glitter) with improvements.
 It has a basic C++ wrapper for some of OpenGL, and a basic app framework based on GLFW.
 
+Unlike **glamour**, it's OpenGL 4.5 boilerplate.
+
 For any suggestions, please submit an issue :)
 
 **Status: WIP**
@@ -10,7 +12,7 @@ For any suggestions, please submit an issue :)
 ## Improvements
 
 * Added [Freetype2](https://www.freetype.org/) for truetype font processing.
-* Generated an OpenGL 4.6 function loader using the [glad](http://glad.dav1d.de/) web service instead of the outdated c-branch on the original repo.
+* Generated an OpenGL 4.5 function loader using the [glad](http://glad.dav1d.de/) web service instead of the outdated c-branch on the original repo.
 * All submodules have been pointed toward their latest stable release.
 * Output goes to a `bin` directory at the project root.
 * A `resources` folder has been added that will be copied to the `bin` folder along with the executable project output as a post build event. This is a good place to store shader source files, art assets, or any other files that will need to be loaded by your program.
