@@ -1,4 +1,16 @@
 .idea/Glitter.iml
 .idea/modules.xml
 .idea/workspace.xml
-cmake-build-debug/
+# Output directories
+bin/*
+build/*
+lib/*
+
+# Clang complete file
+.clang_complete
+
+# VSCode folder
+.vscode/
+
+# Vagrant Folder
+.vagrant/*

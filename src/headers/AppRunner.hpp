@@ -1,13 +1,12 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#ifndef GLITTER_APPRUNNER_HPP
+#define GLITTER_APPRUNNER_HPP
+
+#include "includes.hpp"
 #include <string>
 #include "ShaderProgram.hpp"
 #include "Triangle.hpp"
 #include "Square.hpp"
 #include "Scene.hpp"
-
-#ifndef GLITTER_APPRUNNER_HPP
-#define GLITTER_APPRUNNER_HPP
 
 /**
  * Application and window wrapper for GLFW

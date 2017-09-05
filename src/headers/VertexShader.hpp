@@ -1,7 +1,6 @@
 #ifndef GLITTER_VERTEXSHADER_HPP
 #define GLITTER_VERTEXSHADER_HPP
 
-
 #include "Shader.hpp"
 
 class VertexShader : public Shader {

@@ -1,6 +1,5 @@
 #include "AppRunner.hpp"
 #include <iostream>
-#include <typeinfo>
 
 using namespace std;
 

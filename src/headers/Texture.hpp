@@ -2,8 +2,7 @@
 #define GLITTER_TEXTURE_HPP
 
 #include <string>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "includes.hpp"
 
 class Texture {
 public:

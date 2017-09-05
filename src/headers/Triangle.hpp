@@ -1,7 +1,7 @@
 #ifndef GLITTER_TRIANGLE_HPP
 #define GLITTER_TRIANGLE_HPP
 
-#include "glitter.hpp"
+#include "includes.hpp"
 #include "ShaderProgram.hpp"
 #include "Drawable.hpp"
 

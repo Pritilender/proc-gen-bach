@@ -2,10 +2,8 @@
 #define GLITTER_SHADERPROGRAM_HPP
 
 #include <string>
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include "glitter.hpp"
-#include <Shader.hpp>
+#include "includes.hpp"
+#include "Shader.hpp"
 
 /**
  * OpenGL shader program wrapper

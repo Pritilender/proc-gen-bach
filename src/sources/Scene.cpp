@@ -3,13 +3,7 @@
 #include "FragmentShader.hpp"
 #include "VertexShader.hpp"
 #include "Scene.hpp"
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <Cube.hpp>
-#include <iostream>
-
-#define M_PI (3.141592653589793238462643383279)
 
 using namespace std;
 

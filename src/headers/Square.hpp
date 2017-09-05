@@ -1,8 +1,7 @@
 #ifndef GLITTER_SQUARE_HPP
 #define GLITTER_SQUARE_HPP
 
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
+#include "includes.hpp"
 #include "ShaderProgram.hpp"
 #include "Texture.hpp"
 #include "Drawable.hpp"

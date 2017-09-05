@@ -1,7 +1,4 @@
 #include "AppRunner.hpp"
-#include "glitter.hpp"
-#include <iostream>
-#include <Scene.hpp>
 
 AppRunner::AppRunner(const std::string &title, int height, int width) :
     title(title), height(height), width(width) {

@@ -1,7 +1,7 @@
 #ifndef GLITTER_CUBE_HPP
 #define GLITTER_CUBE_HPP
 
-#include "glitter.hpp"
+#include "includes.hpp"
 #include "Drawable.hpp"
 
 class Cube: public Drawable {

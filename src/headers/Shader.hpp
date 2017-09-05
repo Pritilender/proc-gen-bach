@@ -4,7 +4,7 @@
 #include <string>
 #include <iostream>
 #include <fstream>
-#include "glitter.hpp"
+#include "includes.hpp"
 
 
 class Shader {
@@ -44,7 +44,7 @@ public:
 
     GLuint id;
 protected:
-    const std::string shaderFolder = PROJECT_SOURCE_DIR "/Glitter/Shaders/";
+    const std::string shaderFolder = PROJECT_SOURCE_DIR "/src/shaders/";
 };
 
 

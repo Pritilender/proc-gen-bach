@@ -2,11 +2,11 @@
 
 #include <iostream>
 #include "Texture.hpp"
-#include "glitter.hpp"
+#include "includes.hpp"
 
 using namespace std;
 
-const std::string Texture::assetFolder = PROJECT_SOURCE_DIR "/Glitter/Assets/";
+const std::string Texture::assetFolder = PROJECT_SOURCE_DIR "/src/resources/";
 
 Texture::Texture(const string &imageName) {
     string path = assetFolder + imageName;
