@@ -68,7 +68,7 @@ private:
     GLFWwindow *pWindow; //!< Pointer to GLFW window
 
     bool isWireframe = false; //!< Is current drawn object shown as wireframe
-    std::unique_ptr<Scene> s;
+    std::unique_ptr<Scene> scene;
 };
 
 

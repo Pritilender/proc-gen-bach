@@ -38,7 +38,7 @@ void AppRunner::createWindow() {
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
     std::cout << "OpenGL SL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
-    s.reset(new Scene(width, height));
+    scene.reset(new Scene(width, height));
 }
 
 void AppRunner::run() {
@@ -53,7 +53,7 @@ void AppRunner::run() {
             nbFrames = 0;
             lastTime += 1.0;
         }
-        s->render();
+        scene->render();
 
         glfwSwapBuffers(pWindow);
         glfwPollEvents();
@@ -63,7 +63,7 @@ void AppRunner::run() {
 void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int action, int mods) {
     auto appRunner = static_cast<AppRunner *>(glfwGetWindowUserPointer(window)); // retrieve pointer to the handler
 
-    if (action == GLFW_PRESS) {
+    if (action == GLFW_PRESS || action == GLFW_REPEAT) {
         switch (key) {
             case GLFW_KEY_ESCAPE: {
                 glfwSetWindowShouldClose(window, true);
@@ -75,45 +75,56 @@ void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int acti
                 glPolygonMode(GL_FRONT_AND_BACK, lineOrFill);
                 break;
             }
+            case GLFW_KEY_R: {
+                appRunner->scene->moveCameraY(true);
+                break;
+            }
+            case GLFW_KEY_F: {
+                appRunner->scene->moveCameraY(false);
+                break;
+            }
             case GLFW_KEY_W: {
-                appRunner->s->moveCameraX(true);
+                appRunner->scene->moveCameraZ(true);
                 break;
             }
             case GLFW_KEY_S: {
-                appRunner->s->moveCameraX(false);
+                appRunner->scene->moveCameraZ(false);
                 break;
             }
             case GLFW_KEY_A: {
-                appRunner->s->moveCameraY(false);
+                appRunner->scene->moveCameraX(false);
                 break;
             }
             case GLFW_KEY_D: {
-                appRunner->s->moveCameraY(true);
+                appRunner->scene->moveCameraX(true);
                 break;
             }
             case GLFW_KEY_Q: {
-                appRunner->s->rotateY(true);
+                appRunner->scene->rotateZ(true);
                 break;
             }
             case GLFW_KEY_E: {
-                appRunner->s->rotateY(false);
-                break;
-            }
-            case GLFW_KEY_LEFT: {
-                appRunner->s->rotateX(true);
-                break;
-            }
-            case GLFW_KEY_RIGHT: {
-                appRunner->s->rotateX(false);
+                appRunner->scene->rotateZ(false);
                 break;
             }
             case GLFW_KEY_UP: {
-                appRunner->s->rotateZ(true);
+                appRunner->scene->rotateX(true);
                 break;
             }
             case GLFW_KEY_DOWN: {
-                appRunner->s->rotateZ(false);
+                appRunner->scene->rotateX(false);
                 break;
+            }
+            case GLFW_KEY_LEFT: {
+                appRunner->scene->rotateY(true);
+                break;
+            }
+            case GLFW_KEY_RIGHT: {
+                appRunner->scene->rotateY(false);
+                break;
+            }
+            case GLFW_KEY_SPACE: {
+                appRunner->scene->restart();
             }
         }
     }
