@@ -1,6 +1,7 @@
 #ifndef GLITTER_SQUARE_HPP
 #define GLITTER_SQUARE_HPP
 
+#include <vector>
 #include "includes.hpp"
 #include "ShaderProgram.hpp"
 #include "Texture.hpp"
@@ -8,23 +9,24 @@
 
 class Square: public Drawable {
 public:
-    Square();
+    Square(int resolution, float xMax);
+    explicit Square(int resolution): Square(resolution, 1.0f) {}
+    Square(): Square(2, 1.0f) {}
     ~Square();
     void draw() override;
 
 private:
-    float vertices[32] = {
-        // positions          // colors           // texture coords
-        0.5f,  0.0f, 0.5f,   1.0f, 0.0f, 0.0f,   1.0f, 1.0f, // top right
-        0.5f, 0.0f, -0.5f,   0.0f, 1.0f, 0.0f,   1.0f, 0.0f, // bottom right
-        -0.5f, 0.0f, -0.5f,   0.0f, 0.0f, 1.0f,   0.0f, 0.0f, // bottom left
-        -0.5f,  0.0f, 0.5f,   1.0f, 1.0f, 0.0f,   0.0f, 1.0f  // top left
-    };
-    unsigned int indices[6] = {
-        0, 1, 3, // first triangle
-        1, 2, 3  // second triangle
-    };
+    void prepareVerticesAndIndices();
+
+    int resolution;
+    float xMax;
+    float step;
+
+    std::vector<glm::vec3> vertices;
+    std::vector<glm::uvec3> indices;
+    std::vector<glm::vec3> normals;
     GLuint VBO;
+    GLuint NBO;
     GLuint VAO;
     GLuint EBO;
 };

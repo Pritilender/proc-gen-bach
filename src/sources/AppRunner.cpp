@@ -76,11 +76,11 @@ void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int acti
                 break;
             }
             case GLFW_KEY_R: {
-                appRunner->scene->moveCameraY(true);
+                appRunner->scene->moveCameraY(false);
                 break;
             }
             case GLFW_KEY_F: {
-                appRunner->scene->moveCameraY(false);
+                appRunner->scene->moveCameraY(true);
                 break;
             }
             case GLFW_KEY_W: {
@@ -92,11 +92,11 @@ void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int acti
                 break;
             }
             case GLFW_KEY_A: {
-                appRunner->scene->moveCameraX(false);
+                appRunner->scene->moveCameraX(true);
                 break;
             }
             case GLFW_KEY_D: {
-                appRunner->scene->moveCameraX(true);
+                appRunner->scene->moveCameraX(false);
                 break;
             }
             case GLFW_KEY_Q: {

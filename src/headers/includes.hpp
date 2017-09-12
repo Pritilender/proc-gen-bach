@@ -4,6 +4,7 @@
 #include <glad/glad.h>
 
 // GLM
+#define GLM_FORCE_CXX14
 #define GLM_FORCE_RADIANS
 
 #include <glm/glm.hpp>
@@ -20,7 +21,8 @@
 
 // Freetype 2
 #include <ft2build.h>
-#include FT_FREETYPE_H "freetype/freetype.h"
+#include FT_FREETYPE_H
+
 
 // Standard Headers
 #include <cstdio>
