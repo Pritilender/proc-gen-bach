@@ -36,7 +36,10 @@ public:
     ShaderProgram* setUniform(const std::string &name, bool value);
     ShaderProgram* setUniform(const std::string &name, int value);
     ShaderProgram* setUniform(const std::string &name, float value);
+    ShaderProgram* setUniform(const std::string &name, const glm::mat3 &transformMatrix);
     ShaderProgram* setUniform(const std::string &name, const glm::mat4 &transformMatrix);
+    ShaderProgram* setUniform(const std::string &name, const glm::vec3 &vec);
+    ShaderProgram* setUniform(const std::string &name, const glm::vec4 &vec);
     ShaderProgram* link();
 
 private:

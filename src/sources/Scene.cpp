@@ -2,8 +2,14 @@
 #include "FragmentShader.hpp"
 #include "VertexShader.hpp"
 #include "Scene.hpp"
+#include <glm/gtc/matrix_inverse.hpp>
 
 using namespace std;
+using glm::vec3;
+using glm::vec4;
+using glm::mat3;
+using glm::mat4;
+using glm::radians;
 
 Scene::Scene(int w, int h) : width(w), height(h) {
     glEnable(GL_DEPTH_TEST);
@@ -11,25 +17,28 @@ Scene::Scene(int w, int h) : width(w), height(h) {
 
     setupProgram();
     setupTextures();
-
-    drawables.push_back(unique_ptr<Drawable>(new Square));
-
-    // setup projection matrix
-    glm::mat4 projection;
-    projection = glm::perspective(glm::radians(45.0f), (float) width / (float) height, 0.1f, 100.0f);
-    program->use();
-    program->setUniform("projection", projection);
+    float xMax = 10.0f;
+    drawables.push_back(unique_ptr<Drawable>(new Square(1000, xMax)));
 }
 
 void Scene::setupProgram() {
-    VertexShader vertex("vertexShaderSquare.vert");
-    FragmentShader fragment("fragmentShaderSquare.frag");
+    VertexShader vertex("diffuseVertexShader.vert");
+    FragmentShader fragment("diffuseFragmentShader.frag");
 
     program.reset(new ShaderProgram());
     program->attachShader(vertex)
         ->attachShader(fragment);
 
     program->link();
+
+    // setup projection matrix
+    mat4 projection;
+    projection = glm::perspective(glm::radians(45.0f), (float) width / (float) height, 0.1f, 100.0f);
+    program->use();
+    program->setUniform("Projection", projection);
+    program->setUniform("Kd", vec3(0.9f, 0.5f, 0.5f));
+    program->setUniform("Ld", vec3(1.0f, 1.0f, 1.0f));
+//    program->setUniform("normalizer", xMax);
 }
 
 void Scene::setupTextures() {
@@ -44,17 +53,24 @@ void Scene::setupTextures() {
 void Scene::render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearBufferfi(GL_DEPTH_STENCIL, 0, 1.0f, 0);
+    program->use();
+
+    mat4 view(1.0f);
+    view = glm::translate(view, cameraPos);
+    view = glm::rotate(view, radians(angX), vec3(1, 0, 0));
+    view = glm::rotate(view, radians(angY), vec3(0, 1, 0));
+    view = glm::rotate(view, radians(angZ), vec3(0, 0, 1));
+    program->setUniform("View", view);
+    program->setUniform("LightPosition", view * vec4(5.0f,5.0f,2.0f,1.0f));
 
     for (auto &d : drawables) {
-        glm::mat4 mvMatrix, translate, rotateX, rotateY, rotateZ;
-        translate = glm::translate(translate, cameraPos);
-        rotateX = glm::rotate(rotateX, glm::radians(angX), glm::vec3(1, 0, 0));
-        rotateY = glm::rotate(rotateY, glm::radians(angY), glm::vec3(0, 1, 0));
-        rotateZ = glm::rotate(rotateZ, glm::radians(angZ), glm::vec3(0, 0, 1));
-        mvMatrix = rotateX * rotateZ * rotateY * translate;
-
-        program->setUniform("modelView", mvMatrix);
-
+        mat4 model = mat4(1.0f);
+        model = glm::translate(model, vec3(-1, 0, -1));
+        model = glm::scale(model, vec3(0.2, 0.2, 0.2));
+        mat4 mv = view * model;
+        mat3 normalMatrix = glm::inverseTranspose(mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
+        program->setUniform("Model", model);
+        program->setUniform("NormalMatrix", normalMatrix);
         d->draw();
     }
 }

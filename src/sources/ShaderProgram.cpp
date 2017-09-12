@@ -30,9 +30,27 @@ ShaderProgram* ShaderProgram::setUniform(const std::string &name, float value) {
     return this;
 }
 
+ShaderProgram* ShaderProgram::setUniform(const std::string &name, const glm::mat3 &transformMatrix) {
+    GLint location = getUniformLocation(name);
+    glUniformMatrix3fv(location, 1, GL_FALSE, &transformMatrix[0][0]);
+    return this;
+}
+
 ShaderProgram* ShaderProgram::setUniform(const std::string &name, const glm::mat4 &transformMatrix) {
     GLint location = getUniformLocation(name);
-    glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(transformMatrix));
+    glUniformMatrix4fv(location, 1, GL_FALSE, &transformMatrix[0][0]);
+    return this;
+}
+
+ShaderProgram* ShaderProgram::setUniform(const std::string &name, const glm::vec3 &vector) {
+    GLint location = getUniformLocation(name);
+    glUniform3f(location, vector.x, vector.y, vector.z);
+    return this;
+}
+
+ShaderProgram* ShaderProgram::setUniform(const std::string &name, const glm::vec4 &vector) {
+    GLint location = getUniformLocation(name);
+    glUniform4f(location, vector.x, vector.y, vector.z, vector.w);
     return this;
 }
 
