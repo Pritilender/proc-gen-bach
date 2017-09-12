@@ -18,7 +18,7 @@ Scene::Scene(int w, int h) : width(w), height(h) {
     setupProgram();
     setupTextures();
     float xMax = 10.0f;
-    drawables.push_back(unique_ptr<Drawable>(new Square(50, xMax)));
+    drawables.push_back(unique_ptr<Drawable>(new Square(1000, xMax)));
 }
 
 void Scene::setupProgram() {
