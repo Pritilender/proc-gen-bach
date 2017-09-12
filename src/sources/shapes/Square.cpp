@@ -66,7 +66,7 @@ void Square::prepareVerticesAndIndices() {
     for (int i = 0; i < resolution; i++) {
         float x = 0.0f;
         for (int j = 0; j < resolution; j++) {
-            vec3 vertex = vec3(x, sinf(x* z), z);
+            vec3 vertex = vec3(x, sin(x) * cos(z), z);
             vertices.push_back(vertex);
             normals.push_back(vec3(0.0f, 0.0f, 0.0f)); // generate empty normal also
             x += step;
