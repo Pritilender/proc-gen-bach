@@ -1,6 +1,7 @@
 #version 440
 
-in vec3 LightIntensity;
+//in vec3 LightIntensity;
+flat in vec3 LightIntensity;
 
 out vec4 FragColor;
 

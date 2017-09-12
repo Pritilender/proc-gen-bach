@@ -17,7 +17,8 @@ struct MaterialInfo {
 layout (location = 0) in vec3 VertexPosition;
 layout (location = 1) in vec3 VertexNormal;
 
-out vec3 LightIntensity;
+//out vec3 LightIntensity;
+flat out vec3 LightIntensity;
 
 uniform LightInfo Light;
 uniform MaterialInfo Material;
@@ -29,7 +30,8 @@ uniform mat4 ProjectionMatrix;
 void main() {
 	vec3 tnorm = normalize(NormalMatrix * VertexNormal);
 	vec4 eyeCoords = ViewMatrix * ModelMatrix * vec4(VertexPosition, 1.0);
-	vec3 s = normalize(vec3(Light.Position - eyeCoords));
+//	vec3 s = normalize(vec3(Light.Position - eyeCoords));
+    vec3 s = normalize(vec3(Light.Position)); // use directional light
 	vec3 v = normalize(-eyeCoords.xyz);
 	vec3 r = reflect(-s, tnorm);
 	vec3 ambient = Light.La * Material.Ka;
