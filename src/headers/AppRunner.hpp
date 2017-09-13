@@ -5,7 +5,7 @@
 #include <string>
 #include "ShaderProgram.hpp"
 #include "Triangle.hpp"
-#include "Square.hpp"
+#include "NoisySquare.hpp"
 #include "Scene.hpp"
 
 /**
