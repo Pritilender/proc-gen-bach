@@ -1,4 +1,4 @@
-#include "Square.hpp"
+#include "NoisySquare.hpp"
 #include "FragmentShader.hpp"
 #include "VertexShader.hpp"
 #include "Scene.hpp"
@@ -17,8 +17,11 @@ Scene::Scene(int w, int h) : width(w), height(h) {
 
     setupProgram();
     setupTextures();
-    float xMax = 10.0f;
-    drawables.push_back(unique_ptr<Drawable>(new Square(1000, xMax)));
+    float xMax = 1000.0f;
+    FastNoise noise(21431232);
+    noise.SetNoiseType(FastNoise::Perlin);
+    noise.SetFrequency(0.1);
+    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 2000, xMax)));
 }
 
 void Scene::setupProgram() {
@@ -33,7 +36,7 @@ void Scene::setupProgram() {
 
     // setup projection matrix
     mat4 projection;
-    projection = glm::perspective(glm::radians(45.0f), (float) width / (float) height, 0.1f, 100.0f);
+    projection = glm::perspective(glm::radians(45.0f), (float) width / (float) height, 0.1f, 2000.0f);
     program->use();
     program->setUniform("ProjectionMatrix", projection);
 //    program->setUniform("normalizer", xMax);
@@ -59,19 +62,17 @@ void Scene::render() {
     view = glm::rotate(view, radians(angY), vec3(0, 1, 0));
     view = glm::rotate(view, radians(angZ), vec3(0, 0, 1));
     program->setUniform("ViewMatrix", view);
-    program->setUniform("Material.Kd", vec3(0.9f, 0.2f, 0.4f));
     program->setUniform("Light.Ld", vec3(1.0f, 1.0f, 1.0f));
-    program->setUniform("Light.Position", view * vec4(5.0f, 5.0f, 2.0f, 1.0f));
-    program->setUniform("Material.Ka", vec3(0.9f, 0.2f, 0.4f));
+    program->setUniform("Light.Position", view * vec4(100.0f, 100.0f, 100.0f, 1.0f));
     program->setUniform("Light.La", vec3(0.2f, 0.2f, 0.2f));
-    program->setUniform("Material.Ks", vec3(0.4f, 0.4f, 0.4f));
     program->setUniform("Light.Ls", vec3(0.2f, 0.2f, 0.2f));
-    program->setUniform("Material.Shininess", 100.0f);
+    program->setUniform("Shininess", 100.0f);
 
     for (auto &d : drawables) {
         mat4 model = mat4(1.0f);
-        model = glm::translate(model, vec3(-1, 0, -1));
-        model = glm::scale(model, vec3(0.2, 0.2, 0.2));
+//        model = glm::translate(model, vec3(-1, 0, -1));
+//        model = glm::scale(model, vec3(0.2, 0.2, 0.2));
+        model = glm::translate(model, vec3(-25.0f, 0.0f, -25.0f));
         mat4 mv = view * model;
         mat3 normalMatrix = glm::inverseTranspose(mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
         program->setUniform("ModelMatrix", model);
