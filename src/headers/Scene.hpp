@@ -7,18 +7,15 @@
 #include "Drawable.hpp"
 #include "ShaderProgram.hpp"
 #include "Texture.hpp"
+#include "Camera.hpp"
 
 class Scene {
 public:
     Scene(int w, int h);
     void render();
-    void moveCameraX(bool isPositive);
-    void moveCameraY(bool isPositive);
-    void moveCameraZ(bool isPositive);
-    void rotateY(bool isPositive);
-    void rotateX(bool isPositive);
-    void rotateZ(bool isPositive);
     void restart();
+
+    Camera camera;
 
 private:
     void setupProgram();
@@ -27,10 +24,9 @@ private:
     int width;
     int height;
 
-    float angY = 45;
-    float angX = 45;
-    float angZ = 0;
-    glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f,  -5.0f);
+    float freq = 1.0f;
+    float lacunarity = 2.0f;
+    float persistence = 0.5f; // gain
 
     std::vector<std::unique_ptr<Drawable>> drawables;
     std::vector<std::unique_ptr<Texture>> textures;

@@ -76,55 +76,52 @@ void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int acti
                 break;
             }
             case GLFW_KEY_R: {
-                appRunner->scene->moveCameraY(false);
+                --appRunner->scene->camera.positionY;
                 break;
             }
             case GLFW_KEY_F: {
-                appRunner->scene->moveCameraY(true);
+                ++appRunner->scene->camera.positionY;
                 break;
             }
             case GLFW_KEY_W: {
-                appRunner->scene->moveCameraZ(true);
+                ++appRunner->scene->camera.positionZ;
                 break;
             }
             case GLFW_KEY_S: {
-                appRunner->scene->moveCameraZ(false);
+                --appRunner->scene->camera.positionZ;
                 break;
             }
             case GLFW_KEY_A: {
-                appRunner->scene->moveCameraX(true);
+                ++appRunner->scene->camera.positionX;
                 break;
             }
             case GLFW_KEY_D: {
-                appRunner->scene->moveCameraX(false);
+                --appRunner->scene->camera.positionX;
                 break;
             }
             case GLFW_KEY_Q: {
-                appRunner->scene->rotateZ(true);
+                ++appRunner->scene->camera.angleZ;
                 break;
             }
             case GLFW_KEY_E: {
-                appRunner->scene->rotateZ(false);
+                --appRunner->scene->camera.angleZ;
                 break;
             }
             case GLFW_KEY_UP: {
-                appRunner->scene->rotateX(true);
+                ++appRunner->scene->camera.angleX;
                 break;
             }
             case GLFW_KEY_DOWN: {
-                appRunner->scene->rotateX(false);
+                --appRunner->scene->camera.angleX;
                 break;
             }
             case GLFW_KEY_LEFT: {
-                appRunner->scene->rotateY(true);
+                ++appRunner->scene->camera.angleY;
                 break;
             }
             case GLFW_KEY_RIGHT: {
-                appRunner->scene->rotateY(false);
+                --appRunner->scene->camera.angleY;
                 break;
-            }
-            case GLFW_KEY_SPACE: {
-                appRunner->scene->restart();
             }
         }
     }
