@@ -11,17 +11,19 @@ using glm::mat3;
 using glm::mat4;
 using glm::radians;
 
-Scene::Scene(int w, int h) : width(w), height(h) {
+Scene::Scene(int w, int h) : width(w), height(h), camera() {
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
     setupProgram();
     setupTextures();
-    float xMax = 1000.0f;
-    FastNoise noise(21431232);
-    noise.SetNoiseType(FastNoise::Perlin);
-    noise.SetFrequency(0.1);
-    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 2000, xMax)));
+    float xMax = 10.0f;
+    FastNoise noise;
+    noise.SetNoiseType(FastNoise::PerlinFractal);
+    noise.SetFrequency(freq);
+    noise.SetFractalLacunarity(lacunarity);
+    noise.SetFractalGain(persistence);
+    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 200, xMax)));
 }
 
 void Scene::setupProgram() {
@@ -56,11 +58,7 @@ void Scene::render() {
     glClearBufferfi(GL_DEPTH_STENCIL, 0, 1.0f, 0);
     program->use();
 
-    mat4 view(1.0f);
-    view = glm::translate(view, cameraPos);
-    view = glm::rotate(view, radians(angX), vec3(1, 0, 0));
-    view = glm::rotate(view, radians(angY), vec3(0, 1, 0));
-    view = glm::rotate(view, radians(angZ), vec3(0, 0, 1));
+    mat4 view = camera.getViewMatrix();
     program->setUniform("ViewMatrix", view);
     program->setUniform("Light.Ld", vec3(1.0f, 1.0f, 1.0f));
     program->setUniform("Light.Position", view * vec4(100.0f, 100.0f, 100.0f, 1.0f));
@@ -72,48 +70,11 @@ void Scene::render() {
         mat4 model = mat4(1.0f);
 //        model = glm::translate(model, vec3(-1, 0, -1));
 //        model = glm::scale(model, vec3(0.2, 0.2, 0.2));
-        model = glm::translate(model, vec3(-25.0f, 0.0f, -25.0f));
+        model = glm::translate(model, vec3(-5.0f, 0.0f, -5.0f));
         mat4 mv = view * model;
         mat3 normalMatrix = glm::inverseTranspose(mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
         program->setUniform("ModelMatrix", model);
         program->setUniform("NormalMatrix", normalMatrix);
         d->draw();
     }
-}
-
-void Scene::moveCameraX(bool isPositive) {
-    int modifier = isPositive ? 1 : -1;
-    cameraPos.x += modifier * cameraSpeed;
-}
-
-void Scene::moveCameraY(bool isPositive) {
-    int modifier = isPositive ? 1 : -1;
-    cameraPos.y += modifier * cameraSpeed;
-}
-
-void Scene::moveCameraZ(bool isPositive) {
-    int modifier = isPositive ? 1 : -1;
-    cameraPos.z += modifier * cameraSpeed;
-}
-
-void Scene::rotateY(bool isPositive) {
-    int modifier = isPositive ? 5 : -5;
-    angY += modifier * 1;
-}
-
-void Scene::rotateX(bool isPositive) {
-    int modifier = isPositive ? 5 : -5;
-    angX += modifier * 1;
-}
-
-void Scene::rotateZ(bool isPositive) {
-    int modifier = isPositive ? 5 : -5;
-    angZ += modifier * 1;
-}
-
-void Scene::restart() {
-    angY = 0;
-    angX = 0;
-    angZ = 0;
-    cameraPos = glm::vec3(0.0f, -0.5f, -2.0f);
 }

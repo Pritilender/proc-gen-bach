@@ -35,11 +35,9 @@ private:
     std::vector<glm::vec3> vertices;
     std::vector<glm::uvec3> indices;
     std::vector<glm::vec3> normals;
-    std::vector<glm::vec3> colors; // packed color info - ambient, diffuse and specular colors
     GLuint VBO;
     GLuint NBO;
     GLuint VAO;
-    GLuint CAO;
     GLuint EBO;
 };
 
