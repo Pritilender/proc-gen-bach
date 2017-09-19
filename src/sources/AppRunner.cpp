@@ -48,8 +48,8 @@ void AppRunner::run() {
     while (glfwWindowShouldClose(pWindow) == false) {
         double currentTime = glfwGetTime();
         nbFrames++;
-        if ( currentTime - lastTime >= 1.0 ){
-            std::cout << 1000.0/double(nbFrames) << " ms/frame" << std::endl;
+        if (currentTime - lastTime >= 1.0) {
+            std::cout << 1000.0 / double(nbFrames) << " ms/frame" << std::endl;
             nbFrames = 0;
             lastTime += 1.0;
         }
@@ -122,6 +122,41 @@ void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int acti
             case GLFW_KEY_RIGHT: {
                 --appRunner->scene->camera.angleY;
                 break;
+            }
+            case GLFW_KEY_T: {
+                appRunner->scene->setFreq(0.002f);
+                break;
+            }
+            case GLFW_KEY_G: {
+                appRunner->scene->setFreq(-0.002f);
+                break;
+            }
+            case GLFW_KEY_Y: {
+                appRunner->scene->setLacunarity(0.05f);
+                break;
+            }
+            case GLFW_KEY_H: {
+                appRunner->scene->setLacunarity(-0.05f);
+                break;
+            }
+            case GLFW_KEY_U: {
+                appRunner->scene->setPersistence(0.02f);
+                break;
+            }
+            case GLFW_KEY_J: {
+                appRunner->scene->setPersistence(-0.02f);
+                break;
+            }
+            case GLFW_KEY_I: {
+                appRunner->scene->setOctaves(1);
+                break;
+            }
+            case GLFW_KEY_K: {
+                appRunner->scene->setOctaves(-1);
+                break;
+            }
+            case GLFW_KEY_SPACE: {
+                appRunner->scene->generateSeed();
             }
         }
     }
