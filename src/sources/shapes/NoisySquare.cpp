@@ -5,7 +5,7 @@
 using glm::vec3;
 
 NoisySquare::NoisySquare(const FastNoise &noiseGenerator, int res, float xM) :
-    noiseGenerator(noiseGenerator), resolution(res), xMax(xM), step(xMax / (resolution - 1)) {
+    resolution(res), xMax(xM), step(xMax / (resolution - 1)), noiseGenerator(noiseGenerator) {
     prepareVerticesAndIndices();
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -71,6 +71,7 @@ void NoisySquare::prepareVerticesAndIndices() {
         float x = 0.0f;
         for (int j = 0; j < resolution; j++) {
             float y = noiseGenerator.GetNoise(x, z);
+            y = y < 0 ? -0.1f : 20.0f * y;
 
             if (y > yMax) {
                 yMax = y;
@@ -102,9 +103,4 @@ void NoisySquare::prepareVerticesAndIndices() {
             }
         }
     }
-
-//    for (auto &n: normals) {
-//        n = glm::normalize(n);
-////        std::cout << n.x << " " << n.y << " " << n.z << std::endl;
-//    }
 }

@@ -13,7 +13,6 @@ class Scene {
 public:
     Scene(int w, int h);
     void render();
-    void restart();
 
     Camera camera;
 
@@ -24,15 +23,16 @@ private:
     int width;
     int height;
 
-    float freq = 1.0f;
+    float freq = 0.05f;
     float lacunarity = 2.0f;
-    float persistence = 0.5f; // gain
+    float persistence = 0.3f; // gain
+    int octaves = 5;
 
     std::vector<std::unique_ptr<Drawable>> drawables;
     std::vector<std::unique_ptr<Texture>> textures;
 
     std::unique_ptr<ShaderProgram> program;
-    float cameraSpeed = 0.5f;
+    float xMax = 100.0f;
 };
 
 
