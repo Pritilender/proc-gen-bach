@@ -4,6 +4,7 @@
 #include "Scene.hpp"
 #include <glm/gtc/matrix_inverse.hpp>
 
+
 using namespace std;
 using glm::vec3;
 using glm::vec4;
@@ -11,19 +12,19 @@ using glm::mat3;
 using glm::mat4;
 using glm::radians;
 
-Scene::Scene(int w, int h) : width(w), height(h), camera() {
+Scene::Scene(int w, int h) : camera(), width(w), height(h) {
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
     setupProgram();
     setupTextures();
-    float xMax = 10.0f;
     FastNoise noise;
     noise.SetNoiseType(FastNoise::PerlinFractal);
     noise.SetFrequency(freq);
     noise.SetFractalLacunarity(lacunarity);
     noise.SetFractalGain(persistence);
-    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 200, xMax)));
+    noise.SetFractalOctaves(octaves);
+    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 1000, xMax)));
 }
 
 void Scene::setupProgram() {
@@ -70,7 +71,7 @@ void Scene::render() {
         mat4 model = mat4(1.0f);
 //        model = glm::translate(model, vec3(-1, 0, -1));
 //        model = glm::scale(model, vec3(0.2, 0.2, 0.2));
-        model = glm::translate(model, vec3(-5.0f, 0.0f, -5.0f));
+        model = glm::translate(model, vec3(-xMax / 2, 0.0f, -xMax / 2));
         mat4 mv = view * model;
         mat3 normalMatrix = glm::inverseTranspose(mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
         program->setUniform("ModelMatrix", model);
