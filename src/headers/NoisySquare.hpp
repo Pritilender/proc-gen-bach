@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <FastNoise.h>
+#include <functional>
 #include "includes.hpp"
 #include "ShaderProgram.hpp"
 #include "Texture.hpp"
@@ -24,6 +25,8 @@ public:
 
     void draw() override;
 
+    void setNoiseGenerator(const FastNoise &noiseGenerator);
+
 private:
     void prepareVerticesAndIndices();
 
@@ -31,7 +34,7 @@ private:
     float xMax;
     float step;
 
-    const FastNoise noiseGenerator;
+    FastNoise noiseGenerator;
     std::vector<glm::vec3> vertices;
     std::vector<glm::uvec3> indices;
     std::vector<glm::vec3> normals;

@@ -4,7 +4,6 @@
 #include "Scene.hpp"
 #include <glm/gtc/matrix_inverse.hpp>
 
-
 using namespace std;
 using glm::vec3;
 using glm::vec4;
@@ -12,26 +11,22 @@ using glm::mat3;
 using glm::mat4;
 using glm::radians;
 
-Scene::Scene(int w, int h) : camera(), width(w), height(h) {
+Scene::Scene(int w, int h) : camera(), width(w), height(h), program(new ShaderProgram()), rd(), gen(rd()) {
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
     setupProgram();
     setupTextures();
-    FastNoise noise;
-    noise.SetNoiseType(FastNoise::PerlinFractal);
-    noise.SetFrequency(freq);
-    noise.SetFractalLacunarity(lacunarity);
-    noise.SetFractalGain(persistence);
-    noise.SetFractalOctaves(octaves);
-    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 1000, xMax)));
+    // scene specific
+    FastNoise n = createFastNoise();
+    landscape.reset(new NoisySquare(n, 2000, xMax));
+//    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 1000, xMax)));
 }
 
 void Scene::setupProgram() {
     VertexShader vertex("ads.vert");
     FragmentShader fragment("ads.frag");
 
-    program.reset(new ShaderProgram());
     program->attachShader(vertex)
         ->attachShader(fragment);
 
@@ -42,7 +37,6 @@ void Scene::setupProgram() {
     projection = glm::perspective(glm::radians(45.0f), (float) width / (float) height, 0.1f, 2000.0f);
     program->use();
     program->setUniform("ProjectionMatrix", projection);
-//    program->setUniform("normalizer", xMax);
 }
 
 void Scene::setupTextures() {
@@ -67,15 +61,68 @@ void Scene::render() {
     program->setUniform("Light.Ls", vec3(0.2f, 0.2f, 0.2f));
     program->setUniform("Shininess", 100.0f);
 
-    for (auto &d : drawables) {
-        mat4 model = mat4(1.0f);
-//        model = glm::translate(model, vec3(-1, 0, -1));
-//        model = glm::scale(model, vec3(0.2, 0.2, 0.2));
-        model = glm::translate(model, vec3(-xMax / 2, 0.0f, -xMax / 2));
-        mat4 mv = view * model;
-        mat3 normalMatrix = glm::inverseTranspose(mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
-        program->setUniform("ModelMatrix", model);
-        program->setUniform("NormalMatrix", normalMatrix);
-        d->draw();
-    }
+    mat4 model = mat4(1.0f);
+    model = glm::translate(model, vec3(-xMax / 2, 0.0f, -xMax / 2));
+    mat4 mv = view * model;
+    mat3 normalMatrix = glm::inverseTranspose(mat3(vec3(mv[0]), vec3(mv[1]), vec3(mv[2])));
+    program->setUniform("ModelMatrix", model);
+    program->setUniform("NormalMatrix", normalMatrix);
+    landscape->draw();
+}
+
+void Scene::setupLandscape() {
+    landscape->setNoiseGenerator(createFastNoise());
+    printInfo();
+}
+
+const FastNoise Scene::createFastNoise() {
+    FastNoise noise(seed);
+    noise.SetNoiseType(FastNoise::PerlinFractal);
+    noise.SetFrequency(freq);
+    noise.SetFractalLacunarity(lacunarity);
+    noise.SetFractalGain(persistence);
+    noise.SetFractalOctaves(octaves);
+    return noise;
+}
+
+void Scene::setFreq(float x) {
+    freq += x;
+    setupLandscape();
+}
+
+void Scene::setLacunarity(float x) {
+    lacunarity += x;
+    setupLandscape();
+}
+
+void Scene::setPersistence(float x) {
+    persistence += x;
+    setupLandscape();
+}
+
+void Scene::setOctaves(int x) {
+    octaves += x;
+    octaves = octaves == 0 ? 1 : octaves;
+    setupLandscape();
+}
+
+void Scene::setXMax(float x) {
+    xMax += x;
+    setupLandscape();
+}
+
+void Scene::generateSeed() {
+    std::uniform_int_distribution<> dis;
+    seed = dis(gen);
+    setupLandscape();
+}
+
+void Scene::printInfo() {
+    cout << "==========" << endl;
+    cout << "Seed: " << seed << endl;
+    cout << "Noise frequency: " << freq << endl;
+    cout << "Noise lacunarity: " << lacunarity << endl;
+    cout << "Noise persistence: " << persistence << endl;
+    cout << "Number of octaves: " << octaves << endl;
+    cout << "==========" << endl;
 }
