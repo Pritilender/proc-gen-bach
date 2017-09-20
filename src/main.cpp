@@ -6,7 +6,7 @@ using namespace std;
 int main(int argc, char *argv[]) {
 
     try {
-        auto app = new AppRunner("OpenGL test", 600, 800);
+        auto app = new AppRunner("OpenGL test", 900, 1600);
         app->run();
     } catch (std::runtime_error &error) {
         cerr << error.what() << endl;
