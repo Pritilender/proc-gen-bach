@@ -28,7 +28,7 @@ For any suggestions, please submit an issue :)
 ## Instructions
 
 ```bash
-git clone --recursive https://github.com/matthewjberger/glamour
+git clone --recursive https://github.com/Pritilender/Glittering-glamour/glamour
 cd glamour
 mkdir build
 cd build
