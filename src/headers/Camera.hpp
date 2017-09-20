@@ -8,8 +8,8 @@ class Camera {
 public:
     explicit Camera() : positionX(0.0f, 0.5f),
                         positionY(0.0f, 0.5f),
-                        positionZ(-5.0f, 0.5f),
-                        angleX(45, 5),
+                        positionZ(-100.0f, 0.5f),
+                        angleX(20, 5),
                         angleY(45, 5), angleZ(0, 5) {}
 
     Camera(const Incremental<float> &positionX,
