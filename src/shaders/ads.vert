@@ -24,7 +24,7 @@ vec3 getDiffuseColor(vec3 position) {
     vec3 diffuse;
     if (position.y < -0.1) {
         diffuse = vec3(0.0, 0.0, 0.8);
-    } else if (position.y < 0.0) {
+    } else if (position.y <= 0.0) {
         diffuse = vec3(0.3, 0.7, 0.9);
     } else if (position.y < 0.1) {
         diffuse = vec3(0.9, 0.7, 0.4);

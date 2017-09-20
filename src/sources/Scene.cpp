@@ -21,7 +21,7 @@ Scene::Scene(int w, int h) : camera(), width(w), height(h), program(new ShaderPr
     // scene specific
     FastNoise n = createFastNoise();
     auto gen = make_shared<PerlinVertexGenerator>(PerlinVertexGenerator(n));
-    landscape.reset(new NoisySquare(gen, 2000, xMax));
+    landscape.reset(new NoisySquare(gen, 500, xMax));
 //    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 1000, xMax)));
 }
 
