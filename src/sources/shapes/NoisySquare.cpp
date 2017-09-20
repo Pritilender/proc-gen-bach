@@ -4,8 +4,8 @@ using glm::vec3;
 using glm::uvec3;
 using namespace std;
 
-NoisySquare::NoisySquare(const FastNoise &noiseGenerator, int res, float xM) :
-    resolution(res), xMax(xM), step(xMax / (resolution - 1)), noiseGenerator(noiseGenerator) {
+NoisySquare::NoisySquare(const std::shared_ptr<VertexGenerator>& vg, const int res, const float xM) :
+    resolution(res), xMax(xM), step(xMax / (resolution - 1)), generator(vg) {
     prepareVerticesAndIndices();
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -68,31 +68,17 @@ void NoisySquare::prepareVerticesAndIndices() {
         normalsFromIndices(vertexIndices);
     };
 
-    float yMax = 0;
-    float yMin = 0;
     float z = 0.0f;
     for (int i = 0; i < resolution; i++) {
         float x = 0.0f;
         for (int j = 0; j < resolution; j++) {
-            float y = noiseGenerator.GetNoise(x, z) + 0.2f;
-            y = y < 0 ? -0.1f : 20.0f * y;
-
-            if (y > yMax) {
-                yMax = y;
-            }
-            if (y < yMin) {
-                yMin = y;
-            }
-
-            vec3 vertex = vec3(x, y, z);
+            vec3 vertex = generator->generateVertex(x, z);
             v.push_back(vertex);
             n.push_back(vec3(0.0f, 0.0f, 0.0f)); // generate empty normal also
             x += step;
         }
         z += step;
     }
-    std::cout << "yMax " << yMax << std::endl;
-    std::cout << "yMin " << yMin << std::endl;
 
     for (int i = 0; i < resolution - 1; i++) {
         auto offset = i * resolution;
@@ -113,8 +99,8 @@ void NoisySquare::prepareVerticesAndIndices() {
     indices = ind;
 }
 
-void NoisySquare::setNoiseGenerator(const FastNoise &noiseGenerator) {
-    NoisySquare::noiseGenerator = noiseGenerator;
+void NoisySquare::setVertexGenerator(const std::shared_ptr<VertexGenerator>& vg) {
+    NoisySquare::generator = vg;
     prepareVerticesAndIndices();
 
     // vertices

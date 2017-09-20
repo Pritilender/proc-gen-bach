@@ -3,6 +3,7 @@
 #include "VertexShader.hpp"
 #include "Scene.hpp"
 #include <glm/gtc/matrix_inverse.hpp>
+#include <VertexGenerators/PerlinVertexGenerator.hpp>
 
 using namespace std;
 using glm::vec3;
@@ -19,7 +20,8 @@ Scene::Scene(int w, int h) : camera(), width(w), height(h), program(new ShaderPr
     setupTextures();
     // scene specific
     FastNoise n = createFastNoise();
-    landscape.reset(new NoisySquare(n, 2000, xMax));
+    auto gen = make_shared<PerlinVertexGenerator>(PerlinVertexGenerator(n));
+    landscape.reset(new NoisySquare(gen, 2000, xMax));
 //    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 1000, xMax)));
 }
 
@@ -71,7 +73,8 @@ void Scene::render() {
 }
 
 void Scene::setupLandscape() {
-    landscape->setNoiseGenerator(createFastNoise());
+    auto gen = make_shared<PerlinVertexGenerator>(PerlinVertexGenerator(createFastNoise()));
+    landscape->setVertexGenerator(gen);
     printInfo();
 }
 

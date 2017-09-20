@@ -4,6 +4,8 @@
 #include <vector>
 #include <FastNoise.h>
 #include <functional>
+#include <VertexGenerators/VertexGenerator.hpp>
+#include <memory>
 #include "includes.hpp"
 #include "ShaderProgram.hpp"
 #include "Texture.hpp"
@@ -11,13 +13,13 @@
 
 class NoisySquare : public Drawable {
 public:
-    NoisySquare(const FastNoise &noiseGenerator, int resolution, float xMax);
+    NoisySquare(const std::shared_ptr<VertexGenerator>& vg, int resolution, float xMax);
 
-    NoisySquare(const FastNoise &noiseGenerator, int resolution) :
-        NoisySquare(noiseGenerator, resolution, 1.0f) {}
+    NoisySquare(const std::shared_ptr<VertexGenerator>& vg, const int resolution) :
+        NoisySquare(vg, resolution, 1.0f) {}
 
-    explicit NoisySquare(const FastNoise &noiseGenerator) :
-        NoisySquare(noiseGenerator, 2, 1.0f) {}
+    explicit NoisySquare(const std::shared_ptr<VertexGenerator>& vg) :
+        NoisySquare(vg, 2, 1.0f) {}
 
     NoisySquare() = delete; // no default
 
@@ -25,7 +27,7 @@ public:
 
     void draw() override;
 
-    void setNoiseGenerator(const FastNoise &noiseGenerator);
+    void setVertexGenerator(const std::shared_ptr<VertexGenerator>& vg);
 
 private:
     void prepareVerticesAndIndices();
@@ -33,11 +35,12 @@ private:
     int resolution;
     float xMax;
     float step;
+    std::shared_ptr<VertexGenerator> generator;
 
-    FastNoise noiseGenerator;
     std::vector<glm::vec3> vertices;
     std::vector<glm::uvec3> indices;
     std::vector<glm::vec3> normals;
+
     GLuint VBO;
     GLuint NBO;
     GLuint VAO;
