@@ -81,6 +81,7 @@ void Scene::setupLandscape() {
 const FastNoise Scene::createFastNoise() {
     FastNoise noise(seed);
     noise.SetNoiseType(FastNoise::PerlinFractal);
+//    noise.SetNoiseType(FastNoise::SimplexFractal);
     noise.SetFrequency(freq);
     noise.SetFractalLacunarity(lacunarity);
     noise.SetFractalGain(persistence);
