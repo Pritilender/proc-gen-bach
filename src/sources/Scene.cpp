@@ -26,8 +26,8 @@ Scene::Scene(int w, int h) : camera(), width(w), height(h), program(new ShaderPr
 }
 
 void Scene::setupProgram() {
-    VertexShader vertex("ads.vert");
-    FragmentShader fragment("ads.frag");
+    VertexShader vertex("adsPerPixel.vert");
+    FragmentShader fragment("adsPerPixel.frag");
 
     program->attachShader(vertex)
         ->attachShader(fragment);
@@ -57,11 +57,6 @@ void Scene::render() {
 
     mat4 view = camera.getViewMatrix();
     program->setUniform("ViewMatrix", view);
-    program->setUniform("Light.Ld", vec3(1.0f, 1.0f, 1.0f));
-    program->setUniform("Light.Position", view * vec4(100.0f, 100.0f, 100.0f, 1.0f));
-    program->setUniform("Light.La", vec3(0.2f, 0.2f, 0.2f));
-    program->setUniform("Light.Ls", vec3(0.2f, 0.2f, 0.2f));
-    program->setUniform("Shininess", 100.0f);
 
     mat4 model = mat4(1.0f);
     model = glm::translate(model, vec3(-xMax / 2, 0.0f, -xMax / 2));
