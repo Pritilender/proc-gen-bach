@@ -102,16 +102,8 @@ void NoisySquare::prepareVerticesAndIndices() {
 void NoisySquare::setVertexGenerator(const std::shared_ptr<VertexGenerator>& vg) {
     NoisySquare::generator = vg;
     prepareVerticesAndIndices();
-
     // vertices
-    glBindBuffer(GL_ARRAY_BUFFER, VBO);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(vec3), &vertices[0], GL_DYNAMIC_DRAW);
-
+    glNamedBufferSubData(VBO, 0, vertices.size() * sizeof(vec3), &vertices[0]);
     // normals
-    glBindBuffer(GL_ARRAY_BUFFER, NBO);
-    glBufferData(GL_ARRAY_BUFFER, normals.size() * sizeof(vec3), &normals[0], GL_DYNAMIC_DRAW);
-
-    // indices
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(vec3), &indices[0], GL_DYNAMIC_DRAW);
+    glNamedBufferSubData(NBO, 0, normals.size() * sizeof(vec3), &normals[0]);
 }
