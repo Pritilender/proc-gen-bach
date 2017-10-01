@@ -12,7 +12,20 @@ using glm::mat3;
 using glm::mat4;
 using glm::radians;
 
-Scene::Scene(int w, int h) : camera(), width(w), height(h), program(new ShaderProgram()), rd(), gen(rd()) {
+Scene::Scene(int w, int h) : camera(),
+                             width(w),
+                             height(h),
+                             rd(),
+                             gen(rd()),
+                             program(new ShaderProgram()),
+                             textures({"deep-water.jpg",
+                                       "coastal-water.jpg",
+                                       "beach.jpg",
+                                       "lowlands.jpg",
+                                       "hills.jpg",
+                                       "mountains.jpg",
+                                       "mid-snow.jpg",
+                                       "snow.jpg"}) {
     glEnable(GL_DEPTH_TEST);
     glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
 
@@ -21,7 +34,7 @@ Scene::Scene(int w, int h) : camera(), width(w), height(h), program(new ShaderPr
     // scene specific
     FastNoise n = createFastNoise();
     auto gen = make_shared<PerlinVertexGenerator>(PerlinVertexGenerator(n));
-    landscape.reset(new NoisySquare(gen, 500, xMax));
+    landscape.reset(new NoisySquare(gen, resolution, xMax));
 //    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 1000, xMax)));
 }
 
@@ -48,12 +61,19 @@ void Scene::setupTextures() {
 //    program->use();
 //    program->setUniform("texture1", 0)
 //        ->setUniform("texture2", 1);
+    program->use();
+    textures.prepare();
+    program->setUniform("textures", 0);
+    // setup for texture coordinates generation
+    program->setUniform("xMax", xMax);
+    program->setUniform("resolution", resolution);
 }
 
 void Scene::render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearBufferfi(GL_DEPTH_STENCIL, 0, 1.0f, 0);
     program->use();
+    textures.bindToActive(GL_TEXTURE0);
 
     mat4 view = camera.getViewMatrix();
     program->setUniform("ViewMatrix", view);

@@ -11,8 +11,6 @@ public:
         glDeleteTextures(1, &texture);
     }
 
-    static const std::string assetFolder; //!< Shader folder default location
-
     inline void bind() {
         glBindTexture(GL_TEXTURE_2D, texture);
     }

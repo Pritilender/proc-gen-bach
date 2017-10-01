@@ -6,9 +6,8 @@
 
 using namespace std;
 
-const std::string Texture::assetFolder = PROJECT_SOURCE_DIR "/src/resources/";
-
 Texture::Texture(const string &imageName) {
+    const std::string assetFolder = PROJECT_SOURCE_DIR "/src/resources/";
     string path = assetFolder + imageName;
     bool isPng = path.substr(path.rfind('.') + 1) == "png";
     int width, height, nrChannels;
