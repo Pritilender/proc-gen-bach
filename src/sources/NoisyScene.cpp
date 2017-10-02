@@ -1,7 +1,7 @@
 #include "NoisySquare.hpp"
 #include "FragmentShader.hpp"
 #include "VertexShader.hpp"
-#include "Scene.hpp"
+#include "NoisyScene.hpp"
 #include <glm/gtc/matrix_inverse.hpp>
 #include <VertexGenerators/PerlinVertexGenerator.hpp>
 
@@ -12,11 +12,7 @@ using glm::mat3;
 using glm::mat4;
 using glm::radians;
 
-Scene::Scene(int w, int h) : camera(),
-                             width(w),
-                             height(h),
-                             rd(),
-                             gen(rd()),
+NoisyScene::NoisyScene(int w, int h) : Scene(w, h),
                              program(new ShaderProgram()),
                              textures({"deep-water.jpg",
                                        "coastal-water.jpg",
@@ -26,19 +22,15 @@ Scene::Scene(int w, int h) : camera(),
                                        "mountains.jpg",
                                        "mid-snow.jpg",
                                        "snow.jpg"}) {
-    glEnable(GL_DEPTH_TEST);
-    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
-
     setupProgram();
-    setupTextures();
+    setupTexture();
     // scene specific
     FastNoise n = createFastNoise();
     auto gen = make_shared<PerlinVertexGenerator>(PerlinVertexGenerator(n));
     landscape.reset(new NoisySquare(gen, resolution, xMax));
-//    drawables.push_back(unique_ptr<Drawable>(new NoisySquare(noise, 1000, xMax)));
 }
 
-void Scene::setupProgram() {
+void NoisyScene::setupProgram() {
     VertexShader vertex("adsPerPixel.vert");
     FragmentShader fragment("adsPerPixel.frag");
 
@@ -54,13 +46,7 @@ void Scene::setupProgram() {
     program->setUniform("ProjectionMatrix", projection);
 }
 
-void Scene::setupTextures() {
-//    textures.push_back(unique_ptr<Texture>(new Texture("awesomeface.png")));
-//    textures.push_back(unique_ptr<Texture>(new Texture("container.jpg")));
-//
-//    program->use();
-//    program->setUniform("texture1", 0)
-//        ->setUniform("texture2", 1);
+void NoisyScene::setupTexture() {
     program->use();
     textures.prepare();
     program->setUniform("textures", 0);
@@ -69,7 +55,7 @@ void Scene::setupTextures() {
     program->setUniform("resolution", resolution);
 }
 
-void Scene::render() {
+void NoisyScene::render() {
     glClear(GL_COLOR_BUFFER_BIT);
     glClearBufferfi(GL_DEPTH_STENCIL, 0, 1.0f, 0);
     program->use();
@@ -87,13 +73,13 @@ void Scene::render() {
     landscape->draw();
 }
 
-void Scene::setupLandscape() {
+void NoisyScene::redraw() {
     auto gen = make_shared<PerlinVertexGenerator>(PerlinVertexGenerator(createFastNoise()));
     landscape->setVertexGenerator(gen);
     printInfo();
 }
 
-const FastNoise Scene::createFastNoise() {
+const FastNoise NoisyScene::createFastNoise() {
     FastNoise noise(seed);
     noise.SetNoiseType(FastNoise::PerlinFractal);
 //    noise.SetNoiseType(FastNoise::SimplexFractal);
@@ -102,46 +88,4 @@ const FastNoise Scene::createFastNoise() {
     noise.SetFractalGain(persistence);
     noise.SetFractalOctaves(octaves);
     return noise;
-}
-
-void Scene::setFreq(float x) {
-    freq += x;
-    setupLandscape();
-}
-
-void Scene::setLacunarity(float x) {
-    lacunarity += x;
-    setupLandscape();
-}
-
-void Scene::setPersistence(float x) {
-    persistence += x;
-    setupLandscape();
-}
-
-void Scene::setOctaves(int x) {
-    octaves += x;
-    octaves = octaves == 0 ? 1 : octaves;
-    setupLandscape();
-}
-
-void Scene::setXMax(float x) {
-    xMax += x;
-    setupLandscape();
-}
-
-void Scene::generateSeed() {
-    std::uniform_int_distribution<> dis;
-    seed = dis(gen);
-    setupLandscape();
-}
-
-void Scene::printInfo() {
-    cout << "==========" << endl;
-    cout << "Seed: " << seed << endl;
-    cout << "Noise frequency: " << freq << endl;
-    cout << "Noise lacunarity: " << lacunarity << endl;
-    cout << "Noise persistence: " << persistence << endl;
-    cout << "Number of octaves: " << octaves << endl;
-    cout << "==========" << endl;
 }

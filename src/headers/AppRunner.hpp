@@ -6,7 +6,7 @@
 #include "ShaderProgram.hpp"
 #include "Triangle.hpp"
 #include "NoisySquare.hpp"
-#include "Scene.hpp"
+#include "NoisyScene.hpp"
 
 /**
  * Application and window wrapper for GLFW
