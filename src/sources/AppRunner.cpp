@@ -1,3 +1,4 @@
+#include <ShaderScene.hpp>
 #include "AppRunner.hpp"
 
 AppRunner::AppRunner(const std::string &title, int height, int width) :
@@ -38,7 +39,8 @@ void AppRunner::createWindow() {
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
     std::cout << "OpenGL SL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
-    scene = std::make_unique<NoisyScene>(width, height);
+//    scene = std::make_unique<NoisyScene>(width, height);
+    scene = std::make_unique<ShaderScene>(width, height);
 }
 
 void AppRunner::run() {

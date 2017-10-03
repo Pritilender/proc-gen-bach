@@ -29,8 +29,6 @@ private:
     std::unique_ptr<NoisySquare> landscape;
     std::unique_ptr<ShaderProgram> program;
     TextureArray textures;
-    float xMax = 100.0f;
-    float resolution = 500;
 };
 
 

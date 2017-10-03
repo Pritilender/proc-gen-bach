@@ -13,28 +13,33 @@ public:
     }
     virtual ~Scene() = default;
     virtual void render() = 0;
+
     void setFreq(float f) {
         freq += f;
         redraw();
     }
+
     void setLacunarity(float l) {
         lacunarity += l;
         redraw();
     }
+
     void setPersistence(float p) {
         persistence += p;
         redraw();
     }
+
     void setOctaves(int o) {
         octaves += o;
         redraw();
     }
+
     void setXMax(float xm) {
         xMax += xm;
         redraw();
     }
     void generateSeed() {
-        std::uniform_int_distribution<> dis;
+        std::uniform_int_distribution<> dis(0, 10000);
         seed = dis(gen);
         redraw();
     }
@@ -57,7 +62,7 @@ protected:
     int height;
     std::random_device rd;
     std::mt19937 gen;
-    float freq = 0.04f;
+    float freq = 0.01f;
     float lacunarity = 1.7f;
     float persistence = 0.5f; // gain
     int octaves = 5;

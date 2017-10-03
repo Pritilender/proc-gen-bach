@@ -10,7 +10,7 @@ public:
     glm::vec3 generateVertex(const float x, const float z) override {
         float y = noise.GetNoise(x, z);
         if (y > 0) {
-            y *= 20.0f;
+            y *= 15.0f;
         } else {
             y *= 5.0f;
         }

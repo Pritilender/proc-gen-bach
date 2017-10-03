@@ -12,7 +12,7 @@ uniform mat4 ViewMatrix;
 uniform mat3 NormalMatrix;
 uniform mat4 ProjectionMatrix;
 uniform float xMax;
-uniform float resolution;
+uniform int resolution;
 
 void main() {
     Normal = normalize(NormalMatrix * VertexNormal);
