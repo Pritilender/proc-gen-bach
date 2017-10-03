@@ -53,8 +53,8 @@ vec3 ads() {
     float mixF;
     getLayer(Position, layer, mixF);
     int nextLayer = (layer + 1) == 8 ? 7 : layer + 1;
-    vec3 thisTexD = texture(textures, vec3(UV.x, UV.y, layer)).xyz;
-    vec3 nextTexD = texture(textures, vec3(UV.x, UV.y, nextLayer)).xyz;
+    vec3 thisTexD = texture(textures, vec3(UV.x / 2, UV.y / 2, layer)).xyz;
+    vec3 nextTexD = texture(textures, vec3(UV.x / 2, UV.y / 2, nextLayer)).xyz;
 
     vec3 Kd = mix(thisTexD, nextTexD, mixF);
     vec3 Ka = Kd - 0.2;
