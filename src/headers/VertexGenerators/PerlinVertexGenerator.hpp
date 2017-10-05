@@ -11,7 +11,7 @@ public:
         float y = noise.GetNoise(x, z);
 //        float y = fractalNoise(glm::vec2(x, z), 0.01f, 1.7f, 0.5f, 5, 1337);
         if (y > 0) {
-            y *= 15.0f;
+            y *= 20.0f;
         } else {
             y *= 5.0f;
         }

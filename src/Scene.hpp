@@ -67,8 +67,8 @@ protected:
     float persistence = 0.5f; // gain
     int octaves = 5;
     int seed = 1337;
-    float xMax = 100.0f;
-    int resolution = 500;
+    float xMax = 500.0f;
+    int resolution = 2000;
 };
 
 

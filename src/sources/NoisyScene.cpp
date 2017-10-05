@@ -41,7 +41,7 @@ void NoisyScene::setupProgram() {
 
     // setup projection matrix
     mat4 projection;
-    projection = glm::perspective(glm::radians(45.0f), (float) width / (float) height, 0.1f, 2000.0f);
+    projection = glm::perspective(glm::radians(45.0f), (float) width / (float) height, 0.1f, 500.0f);
     program->use();
     program->setUniform("ProjectionMatrix", projection);
 }

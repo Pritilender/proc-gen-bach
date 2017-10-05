@@ -85,11 +85,11 @@ void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int acti
                 break;
             }
             case GLFW_KEY_R: {
-                --appRunner->scene->camera.positionY;
+                ++appRunner->scene->camera.positionY;
                 break;
             }
             case GLFW_KEY_F: {
-                ++appRunner->scene->camera.positionY;
+                --appRunner->scene->camera.positionY;
                 break;
             }
             case GLFW_KEY_W: {
@@ -108,14 +108,14 @@ void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int acti
                 --appRunner->scene->camera.positionX;
                 break;
             }
-            case GLFW_KEY_Q: {
-                ++appRunner->scene->camera.angleZ;
-                break;
-            }
-            case GLFW_KEY_E: {
-                --appRunner->scene->camera.angleZ;
-                break;
-            }
+//            case GLFW_KEY_Q: {
+//                ++appRunner->scene->camera.angleZ;
+//                break;
+//            }
+//            case GLFW_KEY_E: {
+//                --appRunner->scene->camera.angleZ;
+//                break;
+//            }
             case GLFW_KEY_UP: {
                 ++appRunner->scene->camera.angleX;
                 break;
