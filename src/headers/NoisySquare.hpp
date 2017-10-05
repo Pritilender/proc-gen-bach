@@ -27,10 +27,10 @@ public:
 
     void draw() override;
 
-    void setVertexGenerator(const std::shared_ptr<VertexGenerator>& vg);
+    void setVertexGenerator(const std::shared_ptr<VertexGenerator>& vg, float, float);
 
 private:
-    void prepareVerticesAndIndices();
+    void prepareVerticesAndIndices(float, float);
 
     int resolution;
     float xMax;

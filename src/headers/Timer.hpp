@@ -27,7 +27,7 @@ public:
             meanTime += (msTime - meanTime) / (totalTicks + 1); // Cumulative Moving Average
         }
 
-        if (totalTicks % 10 == 0) {
+        if (totalTicks % 30 == 0) {
             std::cout << "'" << timerName << "': " << msTime << "ms" << std::endl;
         }
 

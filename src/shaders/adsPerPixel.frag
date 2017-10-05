@@ -71,5 +71,11 @@ vec3 ads() {
 }
 
 void main() {
-    FragColor = vec4(ads(), 1.0);
+//    float  dist = abs(vec3(ViewMatrix * ModelMatrix * vec4(Position, 1.0)).z);
+    float dist = gl_FragCoord.z / gl_FragCoord.w;
+    float fogFactor = (300.0 - dist) / (300.0 - 10.0);
+//    float fogFactor = 1.0 - exp(-dist * 10000.0);
+    fogFactor = clamp(fogFactor, 0.0, 1.0);
+    vec3 color = mix(vec3(0.4, 0.6, 0.8), ads(), fogFactor);
+    FragColor = vec4(color, 1.0);
 }

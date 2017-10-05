@@ -75,7 +75,7 @@ void NoisyScene::render() {
 
 void NoisyScene::redraw() {
     auto gen = make_shared<PerlinVertexGenerator>(PerlinVertexGenerator(createFastNoise()));
-    landscape->setVertexGenerator(gen);
+    landscape->setVertexGenerator(gen, xOffset, zOffset);
     printInfo();
 }
 

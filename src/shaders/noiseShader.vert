@@ -16,6 +16,8 @@ uniform float Lacunarity;
 uniform float Persistence;
 uniform int Octaves;
 uniform int Seed;
+uniform float xOffset;
+uniform float zOffset;
 
 out vec3 Position;
 out vec2 UV;
@@ -173,13 +175,13 @@ void main() {
     int id = gl_VertexID;
     vec3 position;
     float step = XMax / (Resolution - 1);
-    float x = (id % Resolution) * step;
-    float z = (id / Resolution) * step;
+    float x = (id % Resolution) * step + xOffset;
+    float z = (id / Resolution) * step + zOffset;
     float y = fractalNoise(vec2(x, z), Frequency, Lacunarity, Persistence, Octaves, Seed);
     Position = vec3(x, y, z);
 //    UV = vec2((id << 1) & 2, id & 2);
     UV = vec2(Position.x / XMax * (Resolution - 1), Position.z / XMax * (Resolution - 1));
     Normal = NormalMatrix * calculateNormal(Position, Frequency, Lacunarity, Persistence, Octaves, Seed);
 
-	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(Position, 1.0);
+	gl_Position = ProjectionMatrix * ViewMatrix * ModelMatrix * vec4(Position.x - xOffset, Position.y, Position.z - zOffset, 1.0);
 }

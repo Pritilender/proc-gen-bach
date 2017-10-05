@@ -9,7 +9,7 @@ class Scene {
 public:
     Scene(int w, int h): width(w), height(h), rd(), gen(rd()) {
         glEnable(GL_DEPTH_TEST);
-        glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+        glClearColor(0.4f, 0.7f, 0.95f, 1.0f);
     }
     virtual ~Scene() = default;
     virtual void render() = 0;
@@ -43,6 +43,22 @@ public:
         seed = dis(gen);
         redraw();
     }
+    void forwards() {
+        zOffset -= 5.f;
+        redraw();
+    };
+    void backwards() {
+        zOffset += 5.f;
+        redraw();
+    };
+    void left() {
+        xOffset -= 5.f;
+        redraw();
+    }
+    void right() {
+        xOffset += 5.f;
+        redraw();
+    }
     Camera camera;
 protected:
     virtual void redraw() = 0;
@@ -67,8 +83,10 @@ protected:
     float persistence = 0.5f; // gain
     int octaves = 5;
     int seed = 1337;
-    float xMax = 500.0f;
-    int resolution = 2000;
+    float xMax = 1200.0f;
+    int resolution = 1000;
+    float xOffset = 0.0;
+    float zOffset = 0.0;
 };
 
 

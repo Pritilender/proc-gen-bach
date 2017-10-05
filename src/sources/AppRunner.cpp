@@ -93,19 +93,23 @@ void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int acti
                 break;
             }
             case GLFW_KEY_W: {
-                ++appRunner->scene->camera.positionZ;
+//                ++appRunner->scene->camera.positionZ;
+                appRunner->scene->forwards();
                 break;
             }
             case GLFW_KEY_S: {
-                --appRunner->scene->camera.positionZ;
+//                --appRunner->scene->camera.positionZ;
+                appRunner->scene->backwards();
                 break;
             }
             case GLFW_KEY_A: {
-                ++appRunner->scene->camera.positionX;
+//                ++appRunner->scene->camera.positionX;
+                appRunner->scene->left();
                 break;
             }
             case GLFW_KEY_D: {
-                --appRunner->scene->camera.positionX;
+//                --appRunner->scene->camera.positionX;
+                appRunner->scene->right();
                 break;
             }
 //            case GLFW_KEY_Q: {

@@ -89,6 +89,8 @@ void ShaderScene::redraw() {
     program->setUniform("Persistence", persistence);
     program->setUniform("Resolution", resolution);
     program->setUniform("XMax", xMax);
+    program->setUniform("xOffset", xOffset);
+    program->setUniform("zOffset", zOffset);
     printInfo();
 }
 
@@ -101,7 +103,7 @@ void ShaderScene::setupProgram() {
 
     // setup projection matrix
     mat4 projection;
-    projection = glm::perspective(glm::radians(45.0f), (float) width / (float) height, 0.1f, 2000.0f);
+    projection = glm::perspective(glm::radians(45.0f), (float) width / (float) height, 0.1f, 500.0f);
     program->use();
     program->setUniform("ProjectionMatrix", projection);
     program->setUniform("Seed", seed);

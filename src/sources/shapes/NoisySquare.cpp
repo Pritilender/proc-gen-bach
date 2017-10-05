@@ -6,7 +6,7 @@ using namespace std;
 
 NoisySquare::NoisySquare(const std::shared_ptr<VertexGenerator>& vg, const int res, const float xM) :
     resolution(res), xMax(xM), step(xMax / (resolution - 1)), generator(vg) {
-    prepareVerticesAndIndices();
+    prepareVerticesAndIndices(0.0f, 0.0f);
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
 
@@ -43,7 +43,7 @@ void NoisySquare::draw() {
     glDrawElements(GL_TRIANGLES, 3 * indices.size(), GL_UNSIGNED_INT, 0);
 }
 
-void NoisySquare::prepareVerticesAndIndices() {
+void NoisySquare::prepareVerticesAndIndices(float xOffset, float zOffset) {
     vector<vec3> v, n;
     vector<uvec3> ind;
 
@@ -72,7 +72,9 @@ void NoisySquare::prepareVerticesAndIndices() {
     for (int i = 0; i < resolution; i++) {
         float x = 0.0f;
         for (int j = 0; j < resolution; j++) {
-            vec3 vertex = generator->generateVertex(x, z);
+            vec3 vertex = generator->generateVertex(x + xOffset, z + zOffset);
+            vertex.x = x - xOffset;
+            vertex.z = z - zOffset;
             v.push_back(vertex);
             n.push_back(vec3(0.0f, 0.0f, 0.0f)); // generate empty normal also
             x += step;
@@ -99,9 +101,9 @@ void NoisySquare::prepareVerticesAndIndices() {
     indices = ind;
 }
 
-void NoisySquare::setVertexGenerator(const std::shared_ptr<VertexGenerator>& vg) {
+void NoisySquare::setVertexGenerator(const std::shared_ptr<VertexGenerator>& vg, float xOffset, float zOffset) {
     NoisySquare::generator = vg;
-    prepareVerticesAndIndices();
+    prepareVerticesAndIndices(xOffset, zOffset);
     // vertices
     glNamedBufferSubData(VBO, 0, vertices.size() * sizeof(vec3), &vertices[0]);
     // normals
