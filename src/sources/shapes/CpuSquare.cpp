@@ -1,11 +1,32 @@
-#include "NoisySquare.hpp"
+#include <VertexShader.hpp>
+#include <NoiseSquare.hpp>
+#include <FragmentShader.hpp>
+#include "CpuSquare.hpp"
 
 using glm::vec3;
 using glm::uvec3;
 using namespace std;
 
-NoisySquare::NoisySquare(const std::shared_ptr<VertexGenerator>& vg, const int res, const float xM) :
-    resolution(res), xMax(xM), step(xMax / (resolution - 1)), generator(vg) {
+CpuSquare::CpuSquare(const int res, const float xM) :
+    NoiseSquare({std::make_shared<VertexShader>("adsPerPixel.vert"), std::make_shared<FragmentShader>("adsPerPixel.frag")},
+                {"deep-water.jpg",
+                 "coastal-water.jpg",
+                 "beach.jpg",
+                 "lowlands.jpg",
+                 "hills.jpg",
+                 "mountains.jpg",
+                 "mid-snow.jpg",
+                 "snow.jpg"},
+                res,
+                xM),
+    step(xMax / (resolution - 1)) {
+
+    noise.SetFrequency(freq);
+    noise.SetFractalLacunarity(lacunarity);
+    noise.SetFractalGain(persistence);
+    noise.SetFractalOctaves(octaves);
+    noise.SetNoiseType(FastNoise::PerlinFractal);
+
     prepareVerticesAndIndices(0.0f, 0.0f);
     glGenVertexArrays(1, &VAO);
     glBindVertexArray(VAO);
@@ -30,20 +51,21 @@ NoisySquare::NoisySquare(const std::shared_ptr<VertexGenerator>& vg, const int r
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(vec3), &indices[0], GL_STATIC_DRAW);
 }
 
-NoisySquare::~NoisySquare() {
-    cout << "In noisysquare destructor" << endl;
+CpuSquare::~CpuSquare() {
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
     glDeleteBuffers(1, &NBO);
     glDeleteBuffers(1, &VAO);
 }
 
-void NoisySquare::draw() {
+void CpuSquare::draw() {
+    program.use();
+    textures.bindToActive(GL_TEXTURE0);
     glBindVertexArray(VAO);
     glDrawElements(GL_TRIANGLES, 3 * indices.size(), GL_UNSIGNED_INT, 0);
 }
 
-void NoisySquare::prepareVerticesAndIndices(float xOffset, float zOffset) {
+void CpuSquare::prepareVerticesAndIndices(float xOffset, float zOffset) {
     vector<vec3> v, n;
     vector<uvec3> ind;
 
@@ -72,11 +94,11 @@ void NoisySquare::prepareVerticesAndIndices(float xOffset, float zOffset) {
     for (int i = 0; i < resolution; i++) {
         float x = 0.0f;
         for (int j = 0; j < resolution; j++) {
-            vec3 vertex = generator->generateVertex(x + xOffset, z + zOffset);
-            vertex.x = x - xOffset;
-            vertex.z = z - zOffset;
+            vec3 vertex(x, noise.GetNoise(x + xOffset, z + zOffset), z);
+
+            vertex.y *= vertex.y > 0 ? 20.0f : 5.0f; // altitude correction
             v.push_back(vertex);
-            n.push_back(vec3(0.0f, 0.0f, 0.0f)); // generate empty normal also
+            n.emplace_back(vec3(0.0f, 0.0f, 0.0f)); // generate empty normal also
             x += step;
         }
         z += step;
@@ -101,8 +123,7 @@ void NoisySquare::prepareVerticesAndIndices(float xOffset, float zOffset) {
     indices = ind;
 }
 
-void NoisySquare::setVertexGenerator(const std::shared_ptr<VertexGenerator>& vg, float xOffset, float zOffset) {
-    NoisySquare::generator = vg;
+void CpuSquare::uploadNewData() {
     prepareVerticesAndIndices(xOffset, zOffset);
     // vertices
     glNamedBufferSubData(VBO, 0, vertices.size() * sizeof(vec3), &vertices[0]);

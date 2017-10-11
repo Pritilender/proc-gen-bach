@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(glamour)
+project(glittering_glamour)
 
 # Place targets into their own solution folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -11,6 +11,9 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_STANDARD 14)
 
+# OMP
+#
+
 # GLFW build options
 option(GLFW_BUILD_DOCS OFF)
 option(GLFW_BUILD_EXAMPLES OFF)
@@ -19,13 +22,24 @@ add_subdirectory(vendor/glfw)
 
 # Freetype2 build options
 add_subdirectory(vendor/freetype2)
-
+message(STATUS "Checking OpenMP")
+find_package(OpenMP)
+#IF(OPENMP_FOUND)
+#	message("Found OpenMP! ^_^")
+#	# add flags for OpenMP
+#	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+#	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+#	set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} ${OpenMP_SHARED_LINKER_FLAGS}")
+#	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+#ELSE()
+#	message("Missed OpenMP! x_x")
+#ENDIF()
 if(MSVC)
     # Set warning level 4 when using Visual Studio
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
 else()
     # Set compiler flags
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Wextra -Wpedantic ${OpenMP_CXX_FLAGS}")
     if(NOT WIN32)
         # GLAD requires libdl on Unix systems
         set(GLAD_LIBRARIES dl)

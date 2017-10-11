@@ -4,9 +4,9 @@
 #include "includes.hpp"
 #include <string>
 #include "ShaderProgram.hpp"
-#include "Triangle.hpp"
-#include "NoisySquare.hpp"
-#include "NoisyScene.hpp"
+#include "CpuSquare.hpp"
+#include "CpuScene.hpp"
+#include "EventHandler.hpp"
 
 /**
  * Application and window wrapper for GLFW
@@ -68,7 +68,8 @@ private:
     GLFWwindow *pWindow; //!< Pointer to GLFW window
 
     bool isWireframe = false; //!< Is current drawn object shown as wireframe
-    std::unique_ptr<Scene> scene;
+    std::shared_ptr<Scene> scene;
+    std::unique_ptr<EventHandler> handler;
 };
 
 

@@ -38,9 +38,7 @@ public:
     }
 
     Shader(Shader&) = delete;
-    Shader(Shader&&) = delete;
     Shader& operator=(Shader&) = delete;
-    Shader& operator=(Shader&&) = delete;
 
     GLuint id;
 protected:

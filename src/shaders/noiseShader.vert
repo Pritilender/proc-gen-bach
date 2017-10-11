@@ -178,6 +178,7 @@ void main() {
     float x = (id % Resolution) * step + xOffset;
     float z = (id / Resolution) * step + zOffset;
     float y = fractalNoise(vec2(x, z), Frequency, Lacunarity, Persistence, Octaves, Seed);
+//    float y = Lacunarity;
     Position = vec3(x, y, z);
 //    UV = vec2((id << 1) & 2, id & 2);
     UV = vec2(Position.x / XMax * (Resolution - 1), Position.z / XMax * (Resolution - 1));

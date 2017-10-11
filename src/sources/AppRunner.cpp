@@ -1,6 +1,7 @@
 #include <ShaderScene.hpp>
 #include <Timer.hpp>
 #include <chrono>
+#include <NoiseSceneEventHandler.hpp>
 #include "AppRunner.hpp"
 
 AppRunner::AppRunner(const std::string &title, int height, int width) :
@@ -19,7 +20,7 @@ void AppRunner::createWindow() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-    glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 
     // Window creation
     pWindow = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
@@ -42,9 +43,11 @@ void AppRunner::createWindow() {
     std::cout << "OpenGL SL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
     auto begin = std::chrono::high_resolution_clock::now();
-    scene = std::make_unique<NoisyScene>(width, height);
-//    scene = std::make_unique<ShaderScene>(width, height);
+//    scene = std::make_shared<CpuScene>(width, height);
+    scene = std::make_unique<ShaderScene>(width, height);
     auto end = std::chrono::high_resolution_clock::now();
+    const auto s = std::static_pointer_cast<NoiseScene>(scene);
+    handler.reset(new NoiseSceneEventHandler(s));
     std::cout << "Scene creation time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "ms" << std::endl;
 }
 
@@ -84,95 +87,10 @@ void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int acti
                 glPolygonMode(GL_FRONT_AND_BACK, lineOrFill);
                 break;
             }
-            case GLFW_KEY_R: {
-                ++appRunner->scene->camera.positionY;
-                break;
-            }
-            case GLFW_KEY_F: {
-                --appRunner->scene->camera.positionY;
-                break;
-            }
-            case GLFW_KEY_W: {
-//                ++appRunner->scene->camera.positionZ;
-                appRunner->scene->forwards();
-                break;
-            }
-            case GLFW_KEY_S: {
-//                --appRunner->scene->camera.positionZ;
-                appRunner->scene->backwards();
-                break;
-            }
-            case GLFW_KEY_A: {
-//                ++appRunner->scene->camera.positionX;
-                appRunner->scene->left();
-                break;
-            }
-            case GLFW_KEY_D: {
-//                --appRunner->scene->camera.positionX;
-                appRunner->scene->right();
-                break;
-            }
-//            case GLFW_KEY_Q: {
-//                ++appRunner->scene->camera.angleZ;
-//                break;
-//            }
-//            case GLFW_KEY_E: {
-//                --appRunner->scene->camera.angleZ;
-//                break;
-//            }
-            case GLFW_KEY_UP: {
-                ++appRunner->scene->camera.angleX;
-                break;
-            }
-            case GLFW_KEY_DOWN: {
-                --appRunner->scene->camera.angleX;
-                break;
-            }
-            case GLFW_KEY_LEFT: {
-                ++appRunner->scene->camera.angleY;
-                break;
-            }
-            case GLFW_KEY_RIGHT: {
-                --appRunner->scene->camera.angleY;
-                break;
-            }
-            case GLFW_KEY_T: {
-                appRunner->scene->setFreq(0.002f);
-                break;
-            }
-            case GLFW_KEY_G: {
-                appRunner->scene->setFreq(-0.002f);
-                break;
-            }
-            case GLFW_KEY_Y: {
-                appRunner->scene->setLacunarity(0.05f);
-                break;
-            }
-            case GLFW_KEY_H: {
-                appRunner->scene->setLacunarity(-0.05f);
-                break;
-            }
-            case GLFW_KEY_U: {
-                appRunner->scene->setPersistence(0.02f);
-                break;
-            }
-            case GLFW_KEY_J: {
-                appRunner->scene->setPersistence(-0.02f);
-                break;
-            }
-            case GLFW_KEY_I: {
-                appRunner->scene->setOctaves(1);
-                break;
-            }
-            case GLFW_KEY_K: {
-                appRunner->scene->setOctaves(-1);
-                break;
-            }
-            case GLFW_KEY_SPACE: {
-                appRunner->scene->generateSeed();
-            }
         }
     }
+
+    appRunner->handler->handleKey(key, scancode, action, mods);
 }
 
 void AppRunner::framebuffer_size_callback(GLFWwindow *window, int width, int height) {
