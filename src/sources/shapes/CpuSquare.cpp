@@ -8,18 +8,19 @@ using glm::uvec3;
 using namespace std;
 
 CpuSquare::CpuSquare(const int res, const float xM) :
-    NoiseSquare({std::make_shared<VertexShader>("adsPerPixel.vert"), std::make_shared<FragmentShader>("adsPerPixel.frag")},
-                {"deep-water.jpg",
-                 "coastal-water.jpg",
-                 "beach.jpg",
-                 "lowlands.jpg",
-                 "hills.jpg",
-                 "mountains.jpg",
-                 "mid-snow.jpg",
-                 "snow.jpg"},
-                res,
-                xM),
-    step(xMax / (resolution - 1)) {
+        NoiseSquare({std::make_shared<VertexShader>("adsPerPixel.vert"),
+                     std::make_shared<FragmentShader>("adsPerPixel.frag")},
+                    {"deep-water.jpg",
+                     "coastal-water.jpg",
+                     "beach.jpg",
+                     "lowlands.jpg",
+                     "hills.jpg",
+                     "mountains.jpg",
+                     "mid-snow.jpg",
+                     "snow.jpg"},
+                    res,
+                    xM),
+        step(xMax / (resolution - 1)) {
 
     noise.SetFrequency(freq);
     noise.SetFractalLacunarity(lacunarity);
@@ -91,9 +92,10 @@ void CpuSquare::prepareVerticesAndIndices(float xOffset, float zOffset) {
     };
 
     float z = 0.0f;
-    for (int i = 0; i < resolution; i++) {
+    for (int j = 0; j < resolution; j++) {
         float x = 0.0f;
-        for (int j = 0; j < resolution; j++) {
+#pragma omp for schedule(dynamic, 20)
+        for (int i = 0; i < resolution; i++) {
             vec3 vertex(x, noise.GetNoise(x + xOffset, z + zOffset), z);
 
             vertex.y *= vertex.y > 0 ? 20.0f : 5.0f; // altitude correction

@@ -5,7 +5,7 @@
 #include "AppRunner.hpp"
 
 AppRunner::AppRunner(const std::string &title, int height, int width) :
-    title(title), height(height), width(width) {
+        title(title), height(height), width(width) {
     glfwInit();
     createWindow();
 }
@@ -43,12 +43,13 @@ void AppRunner::createWindow() {
     std::cout << "OpenGL SL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
     auto begin = std::chrono::high_resolution_clock::now();
-//    scene = std::make_shared<CpuScene>(width, height);
-    scene = std::make_unique<ShaderScene>(width, height);
+    scene = std::make_shared<CpuScene>(width, height);
+//    scene = std::make_unique<ShaderScene>(width, height);
     auto end = std::chrono::high_resolution_clock::now();
     const auto s = std::static_pointer_cast<NoiseScene>(scene);
     handler.reset(new NoiseSceneEventHandler(s));
-    std::cout << "Scene creation time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() << "ms" << std::endl;
+    std::cout << "Scene creation time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count()
+              << "ms" << std::endl;
 }
 
 void AppRunner::run() {
@@ -87,10 +88,11 @@ void AppRunner::processInput(GLFWwindow *window, int key, int scancode, int acti
                 glPolygonMode(GL_FRONT_AND_BACK, lineOrFill);
                 break;
             }
+            default:
+                appRunner->handler->handleKey(key, scancode, action, mods);
         }
     }
 
-    appRunner->handler->handleKey(key, scancode, action, mods);
 }
 
 void AppRunner::framebuffer_size_callback(GLFWwindow *window, int width, int height) {

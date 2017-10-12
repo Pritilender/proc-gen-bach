@@ -25,7 +25,7 @@ public:
     /**
      * Figure should release all buffers that it holds in its destructor.
      */
-    virtual ~Drawable() {};
+    virtual ~Drawable() = default;
 
     /**
      * Bind all buffers and draw elements.
@@ -33,7 +33,7 @@ public:
     virtual void draw() = 0;
 
     virtual void setupProgram(const std::vector<std::shared_ptr<Shader>>& shaders) {
-        for (auto s: shaders) {
+        for (const auto &s: shaders) {
             program.attachShader(*s);
         }
         program.link();

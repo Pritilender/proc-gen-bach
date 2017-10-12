@@ -23,6 +23,7 @@ void CpuScene::render() {
     glClearBufferfi(GL_DEPTH_STENCIL, 0, 1.0f, 0);
 
     auto& program = landscape->program;
+    program.use();
 
     mat4 projection;
     mat4 view = camera.getViewMatrix();
