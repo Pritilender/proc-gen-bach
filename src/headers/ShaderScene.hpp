@@ -10,8 +10,6 @@ class ShaderScene: public NoiseScene {
 public:
     ShaderScene(int w, int h);
 
-    void render() override;
-
     void redraw() override;
 };
 

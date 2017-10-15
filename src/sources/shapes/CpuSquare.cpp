@@ -10,14 +10,14 @@ using namespace std;
 CpuSquare::CpuSquare(const int res, const float xM) :
         NoiseSquare({std::make_shared<VertexShader>("adsPerPixel.vert"),
                      std::make_shared<FragmentShader>("adsPerPixel.frag")},
-                    {"deep-water.jpg",
-                     "coastal-water.jpg",
-                     "beach.jpg",
-                     "lowlands.jpg",
-                     "hills.jpg",
-                     "mountains.jpg",
-                     "mid-snow.jpg",
-                     "snow.jpg"},
+                    {"deep-water2.jpg",
+                     "coastal-water2.jpg",
+                     "beach2.jpg",
+                     "lowlands2.jpg",
+                     "hills2.jpg",
+                     "mountains2.jpg",
+                     "mid-snow2.jpg",
+                     "snow2.jpg"},
                     res,
                     xM),
         step(xMax / (resolution - 1)) {
@@ -94,7 +94,7 @@ void CpuSquare::prepareVerticesAndIndices(float xOffset, float zOffset) {
     float z = 0.0f;
     for (int j = 0; j < resolution; j++) {
         float x = 0.0f;
-#pragma omp for schedule(dynamic, 20)
+//        #pragma omp for schedule(dynamic, 20)
         for (int i = 0; i < resolution; i++) {
             vec3 vertex(x, noise.GetNoise(x + xOffset, z + zOffset), z);
 

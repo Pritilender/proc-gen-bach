@@ -14,7 +14,7 @@ public:
         glBindTexture(GL_TEXTURE_2D_ARRAY, texture);
 
 //        glTexStorage3D(GL_TEXTURE_2D_ARRAY, 11, GL_RGBA8, 1024, 1024, images.size()); // todo something about this hardcoding
-        glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, 1024, 1024, images.size(), 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+        glTexImage3D(GL_TEXTURE_2D_ARRAY, 0, GL_RGBA8, 2048, 2048, images.size(), 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_WRAP_T, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D_ARRAY, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);

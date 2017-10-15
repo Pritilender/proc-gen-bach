@@ -1,9 +1,5 @@
 #include "CpuSquare.hpp"
 #include "CpuScene.hpp"
-#include <glm/gtc/matrix_inverse.hpp>
-
-#define XMAX 1200
-#define RESOLUTION 1000.0f
 
 using namespace std;
 using glm::vec3;

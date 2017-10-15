@@ -2,6 +2,7 @@
 #include <Timer.hpp>
 #include <chrono>
 #include <NoiseSceneEventHandler.hpp>
+#include <CpuTimer.hpp>
 #include "AppRunner.hpp"
 
 AppRunner::AppRunner(const std::string &title, int height, int width) :
@@ -42,21 +43,23 @@ void AppRunner::createWindow() {
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
     std::cout << "OpenGL SL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
-    auto begin = std::chrono::high_resolution_clock::now();
+    CpuTimer sceneTimer("scene");
+    sceneTimer.start();
     scene = std::make_shared<CpuScene>(width, height);
 //    scene = std::make_unique<ShaderScene>(width, height);
-    auto end = std::chrono::high_resolution_clock::now();
+    sceneTimer.stop();
+
     const auto s = std::static_pointer_cast<NoiseScene>(scene);
     handler.reset(new NoiseSceneEventHandler(s));
-    std::cout << "Scene creation time: " << std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count()
-              << "ms" << std::endl;
 }
 
 void AppRunner::run() {
 //    double lastTime = glfwGetTime();
 //    int nbFrames = 0;
     Timer timer("run timer");
+    CpuTimer renderTimer("render");
     while (glfwWindowShouldClose(pWindow) == false) {
+        renderTimer.start();
 //        double currentTime = glfwGetTime();
 //        nbFrames++;
 //        if (currentTime - lastTime >= 1.0) {
@@ -64,12 +67,13 @@ void AppRunner::run() {
 //            nbFrames = 0;
 //            lastTime += 1.0;
 //        }
-        timer.begin();
+//        timer.begin();
         scene->render();
-        timer.end();
+//        timer.end();
 
         glfwSwapBuffers(pWindow);
         glfwPollEvents();
+        renderTimer.stop();
     }
 }
 

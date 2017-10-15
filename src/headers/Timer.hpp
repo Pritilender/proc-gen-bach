@@ -1,39 +1,58 @@
 #ifndef GLAMOUR_TIMER_HPP
 #define GLAMOUR_TIMER_HPP
 
+#include <queue>
 #include "includes.hpp"
 
 class Timer {
 public:
     explicit Timer(const std::string& name): timerName(name) {
-        glGenQueries(2, queryIds);
+//        glGenQueries(2, queryIds);
     }
 
     void begin() {
-        glBeginQuery(GL_TIME_ELAPSED, queryIds[back]);
+        GLuint queryId;
+        glGenQueries(1, &queryId);
+        queries.push(queryId);
+        glBeginQuery(GL_TIME_ELAPSED, queryId);
     }
 
     GLuint64 end() {
         glEndQuery(GL_TIME_ELAPSED);
-        glGetQueryObjectui64v(queryIds[front], GL_QUERY_RESULT, &elapsedTime);
 
-        totalTicks++;
+        GLuint64 isAvailable;
+        GLuint queryId = queries.front();
+        glGetQueryObjectui64v(queryId, GL_QUERY_RESULT_AVAILABLE, &isAvailable);
 
-        double msTime = elapsedTime / 1000000.0f; // get in ms
+        if (isAvailable != 0) {
+//            std::cout << "AVAILABLEEEE" << std::endl;
 
-        if (totalTicks > 1) {
-            maxTime = maxTime < msTime ? msTime : maxTime;
-            minTime = minTime > msTime ? msTime : minTime;
-            meanTime += (msTime - meanTime) / (totalTicks + 1); // Cumulative Moving Average
+            queries.pop();
+            glGetQueryObjectui64v(queryId, GL_QUERY_RESULT, &elapsedTime);
+
+            totalTicks++;
+
+            double msTime = elapsedTime / 1000000.0f; // get in ms
+
+            if (totalTicks > 1) {
+                maxTime = maxTime < msTime ? msTime : maxTime;
+                minTime = minTime > msTime ? msTime : minTime;
+                meanTime += (msTime - meanTime) / (totalTicks + 1); // Cumulative Moving Average
+            }
+
+//            if (totalTicks % 30 == 0) {
+//                std::cout << "'" << timerName << "': " << msTime << "ms" << std::endl;
+//            }
+
+        } else {
+//            std::cout << "Nope..." << std::endl;
         }
 
-        if (totalTicks % 30 == 0) {
-            std::cout << "'" << timerName << "': " << msTime << "ms" << std::endl;
-        }
 
-        // swap queries
-        front = back;
-        back = ++back %2;
+
+//        // swap queries
+//        front = back;
+//        back = ++back %2;
 
         return elapsedTime;
     }
@@ -49,8 +68,9 @@ public:
 
 private:
     std::string timerName;
-    GLuint queryIds[2];
-    int front = 0, back = 1;
+//    GLuint queryIds[2];
+    std::queue<GLuint> queries;
+//    int front = 0, back = 1;
 
     GLuint64 elapsedTime = 0;
     double maxTime = 0;

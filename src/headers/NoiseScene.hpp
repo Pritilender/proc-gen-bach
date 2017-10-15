@@ -1,10 +1,14 @@
 #ifndef GLITTERING_GLAMOUR_NOISESCENE_HPP
 #define GLITTERING_GLAMOUR_NOISESCENE_HPP
 
+#define XMAX 1200.0f
+#define RESOLUTION 500
+
 #include "Scene.hpp"
 
 #include <utility>
 #include "NoiseSquare.hpp"
+#include <glm/gtc/matrix_inverse.hpp>
 
 class NoiseScene : public Scene {
 public:
