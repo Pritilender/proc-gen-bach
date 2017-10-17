@@ -2,7 +2,7 @@
 #define GLITTERING_GLAMOUR_NOISESCENE_HPP
 
 #define XMAX 1200.0f
-#define RESOLUTION 500
+#define RESOLUTION 2000
 
 #include "Scene.hpp"
 

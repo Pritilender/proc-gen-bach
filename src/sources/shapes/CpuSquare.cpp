@@ -1,6 +1,7 @@
 #include <VertexShader.hpp>
 #include <NoiseSquare.hpp>
 #include <FragmentShader.hpp>
+#include <CpuTimer.hpp>
 #include "CpuSquare.hpp"
 
 using glm::vec3;
@@ -10,14 +11,14 @@ using namespace std;
 CpuSquare::CpuSquare(const int res, const float xM) :
         NoiseSquare({std::make_shared<VertexShader>("adsPerPixel.vert"),
                      std::make_shared<FragmentShader>("adsPerPixel.frag")},
-                    {"deep-water2.jpg",
-                     "coastal-water2.jpg",
-                     "beach2.jpg",
-                     "lowlands2.jpg",
-                     "hills2.jpg",
-                     "mountains2.jpg",
-                     "mid-snow2.jpg",
-                     "snow2.jpg"},
+                    {"deep-water.jpg",
+                     "coastal-water.jpg",
+                     "beach.jpg",
+                     "lowlands.jpg",
+                     "hills.jpg",
+                     "mountains.jpg",
+                     "mid-snow.jpg",
+                     "snow.jpg"},
                     res,
                     xM),
         step(xMax / (resolution - 1)) {

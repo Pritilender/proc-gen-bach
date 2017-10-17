@@ -43,11 +43,11 @@ void AppRunner::createWindow() {
     std::cout << "OpenGL version: " << glGetString(GL_VERSION) << std::endl;
     std::cout << "OpenGL SL version: " << glGetString(GL_SHADING_LANGUAGE_VERSION) << std::endl;
 
-    CpuTimer sceneTimer("scene");
-    sceneTimer.start();
-    scene = std::make_shared<CpuScene>(width, height);
-//    scene = std::make_unique<ShaderScene>(width, height);
-    sceneTimer.stop();
+//    CpuTimer sceneTimer("scene");
+//    sceneTimer.start();
+//    scene = std::make_shared<CpuScene>(width, height);
+    scene = std::make_unique<ShaderScene>(width, height);
+//    sceneTimer.stop();
 
     const auto s = std::static_pointer_cast<NoiseScene>(scene);
     handler.reset(new NoiseSceneEventHandler(s));
@@ -56,10 +56,10 @@ void AppRunner::createWindow() {
 void AppRunner::run() {
 //    double lastTime = glfwGetTime();
 //    int nbFrames = 0;
-    Timer timer("run timer");
-    CpuTimer renderTimer("render");
+//    Timer timer("run timer");
+//    CpuTimer renderTimer("render");
     while (glfwWindowShouldClose(pWindow) == false) {
-        renderTimer.start();
+//        renderTimer.start();
 //        double currentTime = glfwGetTime();
 //        nbFrames++;
 //        if (currentTime - lastTime >= 1.0) {
@@ -73,7 +73,7 @@ void AppRunner::run() {
 
         glfwSwapBuffers(pWindow);
         glfwPollEvents();
-        renderTimer.stop();
+//        renderTimer.stop();
     }
 }
 
